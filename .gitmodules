@@ -1,0 +1,21 @@
+[submodule "ft_printf"]
+	path = ft_printf
+	url = git@github.com:hipoliciak/ft_printf.git
+[submodule "lib/ft_printf"]
+	path = lib/ft_printf
+	url = git@github.com:hipoliciak/ft_printf.git
+[submodule "lib/libft"]
+	path = lib/libft
+	url = git@github.com:hipoliciak/libft.git
+[submodule "lib/mlx"]
+	path = lib/mlx
+	url = git@github.com:42Paris/minilibx-linux.git
+[submodule "libs/ft_printf"]
+	path = libs/ft_printf
+	url = git@github.com:hipoliciak/ft_printf.git
+[submodule "libs/libft"]
+	path = libs/libft
+	url = git@github.com:hipoliciak/libft.git
+[submodule "libs/mlx"]
+	path = libs/mlx
+	url = git@github.com:42Paris/minilibx-linux.git
