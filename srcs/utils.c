@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:20:04 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/10/30 23:20:07 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/11/01 22:14:54 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,40 +41,18 @@ char	*split_line(char *line)
 	return (new_line);
 }
 
-void	display_moves_and_collectibles(t_game *game)
+int	draw_map(t_game *game)
 {
-	char	*moves;
-	char	*collectibles;
+	int	i;
 
-	moves = ft_itoa(game->moves);
-	collectibles = ft_itoa(game->collectibles);
-	mlx_string_put(game->mlx_ptr, game->win_ptr, 10, 10, 0x00FFFFFF, "Moves: ");
-	mlx_string_put(game->mlx_ptr, game->win_ptr, 120, 10, 0x00FFFFFF, moves);
-	mlx_string_put(game->mlx_ptr, game->win_ptr, 10, 25,
-		0x00FFFFFF, "Collectibles: ");
-	mlx_string_put(game->mlx_ptr, game->win_ptr, 120, 25,
-		0x00FFFFFF, collectibles);
-	// ft_printf("Moves: %s\n", moves);
-	// ft_printf("Collectibles: %s\n", collectibles);
-	free(moves);
-	free(collectibles);
+	i = 0;
+	while (i < game->map.height)
+	{
+		printf("%s\n", game->map.map[i]);
+		i++;
+	}
+	printf("Player position: %f, %f\n", game->player.x, game->player.y);
+	printf("Player angle: %f\n", game->player.angle);
+	printf("\n");
+	return (0);
 }
-
-// void	draw_map(t_game *game)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (i < game->map.height)
-// 	{
-// 		ft_printf("%s\n", game->map.map[i]);
-// 		i++;
-// 	}
-// 	ft_printf("x_player_pos: %d\n", game->map.x_player_pos);
-// 	ft_printf("y_player_pos: %d\n", game->map.y_player_pos);
-// 	ft_printf("x_exit_pos: %d\n", game->map.x_exit_pos);
-// 	ft_printf("y_exit_pos: %d\n", game->map.y_exit_pos);
-// 	ft_printf("moves: %d\n", game->moves);
-// 	ft_printf("collectibles: %d\n", game->collectibles);
-// 	ft_printf("\n");
-// }

@@ -6,16 +6,16 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:33 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/10/30 23:19:36 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/11/01 22:21:02 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	init_positions(t_game *game)
+void init_positions(t_game *game)
 {
-	int	x;
-	int	y;
+	int x;
+	int y;
 
 	x = 0;
 	while (x < game->map.width)
@@ -23,15 +23,21 @@ void	init_positions(t_game *game)
 		y = 0;
 		while (y < game->map.height)
 		{
-			if (game->map.map[y][x] == 'P')
+			if (game->map.map[y][x] == 'N' || game->map.map[y][x] == 'E' ||
+				game->map.map[y][x] == 'W' || game->map.map[y][x] == 'S')
 			{
-				game->map.x_player_pos = x;
-				game->map.y_player_pos = y;
-			}
-			if (game->map.map[y][x] == 'E')
-			{
-				game->map.x_exit_pos = x;
-				game->map.y_exit_pos = y;
+				
+				game->player.x = x + 0.5;
+				game->player.y = y + 0.5;
+				if (game->map.map[y][x] == 'N')
+					game->player.angle = 0.0;
+				else if (game->map.map[y][x] == 'E')
+					game->player.angle = 90.0;
+				else if (game->map.map[y][x] == 'W')
+					game->player.angle = 270.0;
+				else if (game->map.map[y][x] == 'S')
+					game->player.angle = 180.0;
+				return ;
 			}
 			y++;
 		}
@@ -39,94 +45,45 @@ void	init_positions(t_game *game)
 	}
 }
 
-void	move_up(t_game *game)
+void move_forward(t_game *game)
 {
-	int	x;
-	int	y;
+	double move_x;
+	double move_y;
 
-	x = game->map.x_player_pos;
-	y = game->map.y_player_pos;
-	if (game->map.map[y - 1][x] != '1')
+	move_x = game->player.x + cos(game->player.angle * M_PI / 180) * MOVE_STEP;
+	move_y = game->player.y + sin(game->player.angle * M_PI / 180) * MOVE_STEP;
+	if (game->map.map[(int)move_y][(int)move_x] != '1')
 	{
-		game->moves++;
-		if (game->map.map[y - 1][x] == 'C')
-			game->collectibles--;
-		game->map.map[y][x] = '0';
-		game->map.map[game->map.y_exit_pos][game->map.x_exit_pos] = 'E';
-		if (game->map.map[y - 1][x] == 'E' && game->collectibles == 0)
-			end_game(game, NULL, 0);
-		game->map.map[y - 1][x] = 'P';
-		game->player.direction = 'U';
-		game->map.y_player_pos = y - 1;
+		game->player.x = move_x;
+		game->player.y = move_y;
 	}
-	render_map(game);
 }
 
-void	move_down(t_game *game)
+void move_backward(t_game *game)
 {
-	int	x;
-	int	y;
+	double move_x;
+	double move_y;
 
-	x = game->map.x_player_pos;
-	y = game->map.y_player_pos;
-	if (game->map.map[y + 1][x] != '1')
+	move_x = game->player.x - cos(game->player.angle * M_PI / 180) * MOVE_STEP;
+	move_y = game->player.y - sin(game->player.angle * M_PI / 180) * MOVE_STEP;
+
+	if (game->map.map[(int)move_y][(int)move_x] != '1')
 	{
-		game->moves++;
-		if (game->map.map[y + 1][x] == 'C')
-			game->collectibles--;
-		game->map.map[y][x] = '0';
-		game->map.map[game->map.y_exit_pos][game->map.x_exit_pos] = 'E';
-		if (game->map.map[y + 1][x] == 'E' && game->collectibles == 0)
-			end_game(game, NULL, 0);
-		game->map.map[y + 1][x] = 'P';
-		game->player.direction = 'D';
-		game->map.y_player_pos = y + 1;
+		game->player.x = move_x;
+		game->player.y = move_y;
 	}
-	render_map(game);
 }
 
-void	move_left(t_game *game)
+void rotate_left(t_game *game)
 {
-	int	x;
-	int	y;
-
-	x = game->map.x_player_pos;
-	y = game->map.y_player_pos;
-	if (game->map.map[y][x - 1] != '1')
-	{
-		game->moves++;
-		if (game->map.map[y][x - 1] == 'C')
-			game->collectibles--;
-		game->map.map[y][x] = '0';
-		game->map.map[game->map.y_exit_pos][game->map.x_exit_pos] = 'E';
-		if (game->map.map[y][x - 1] == 'E' && game->collectibles == 0)
-			end_game(game, NULL, 0);
-		game->map.map[y][x - 1] = 'P';
-		game->player.direction = 'L';
-		game->map.x_player_pos = x - 1;
-	}
-	render_map(game);
+	game->player.angle -= 5.0;
+	if (game->player.angle < 0.0)
+		game->player.angle += 360.0;
 }
 
-void	move_right(t_game *game)
+void rotate_right(t_game *game)
 {
-	int	x;
-	int	y;
-
-	x = game->map.x_player_pos;
-	y = game->map.y_player_pos;
-	if (game->map.map[y][x + 1] != '1')
-	{
-		game->moves++;
-		if (game->map.map[y][x + 1] == 'C')
-			game->collectibles--;
-		game->map.map[y][x] = '0';
-		game->map.map[game->map.y_exit_pos][game->map.x_exit_pos] = 'E';
-		if (game->map.map[y][x + 1] == 'E' && game->collectibles == 0)
-			end_game(game, NULL, 0);
-		game->map.map[y][x + 1] = 'P';
-		game->player.direction = 'R';
-		game->map.x_player_pos = x + 1;
-	}
-	render_map(game);
+	game->player.angle += 5.0;
+	if (game->player.angle >= 360.0)
+		game->player.angle -= 360.0;
 }

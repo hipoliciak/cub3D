@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:06 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/10/30 23:19:10 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/11/01 22:49:45 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,26 @@
 # include "mlx.h"
 # include "key_linux.h"
 # include <fcntl.h>
+# include <math.h>
+# include <stdio.h>
 
-# define SPRITE_SIZE 512
+// Textures and colors
+# define TEXTURE_SIZE 50
+# define NO "textures/north.xpm"
+# define SO "textures/south.xpm"
+# define WE "textures/west.xpm"
+# define EA "textures/east.xpm"
+# define F	220,100,0
+# define C	0,0,255
 
-# define COLLECTIBLE "textures/painting-20.xpm"
-# define EXIT "textures/painting-21.xpm"
-# define WALL "textures/painting-24.xpm"
-# define FLOOR "textures/painting-32.xpm"
-# define PLAYER_R "textures/painting-20.xpm"
-# define PLAYER_L "textures/painting-20.xpm"
-# define PLAYER_U "textures/painting-20.xpm"
-# define PLAYER_D "textures/painting-20.xpm"
+// Rendering constants
+# define FOV 60.0
+# define NUM_RAYS 320
+
+// Movement and Raycasting
+# define MOVE_STEP 0.1
+# define STEP_SIZE 0.05
+# define M_PI 3.14159265358979323846
 
 typedef struct s_map
 {
@@ -37,8 +46,6 @@ typedef struct s_map
 	int		height;
 	int		x_player_pos;
 	int		y_player_pos;
-	int		x_exit_pos;
-	int		y_exit_pos;
 }	t_map;
 
 typedef struct s_image
@@ -50,57 +57,46 @@ typedef struct s_image
 
 typedef struct s_player
 {
-	t_image	player_r;
-	t_image	player_l;
-	t_image	player_u;
-	t_image	player_d;
-	char	direction;
+	double	x;
+	double	y;
+	double	angle;
 }	t_player;
 
 typedef struct s_game
 {
 	void		*mlx_ptr;
 	void		*win_ptr;
-	int			collectibles;
-	int			moves;
 	t_map		map;
-	t_image		collectible;
-	t_image		exit;
-	t_image		wall;
-	t_image		floor;
+	t_image		textures[4];
+	t_image		image;
 	t_player	player;
 }	t_game;
 
-//Engine
+// Engine
 void	init_positions(t_game *game);
-void	move_up(t_game *game);
-void	move_down(t_game *game);
-void	move_left(t_game *game);
-void	move_right(t_game *game);
+void	move_forward(t_game *game);
+void	move_backward(t_game *game);
+void	rotate_left(t_game *game);
+void	rotate_right(t_game *game);
 
-//Graphics
-void	init_sprites(t_game *game);
-t_image	create_sprite(t_game *game, char *path);
+// Graphics
+void	init_textures(t_game *game);
+t_image	create_texture(t_game *game, char *path);
 void	render_sprite(t_game *game, t_image *sprite, int line, int column);
-void	render_player(t_game *game, int line, int column);
-int		render_map(t_game *game);
 
-//Map
+// Map
 void	read_map(t_game *game, char *path);
 void	fill_map(t_game *game, char *path);
 void	validate_elements(t_game *game);
 void	check_walls(t_game *game);
-void	count_elements(t_game *game);
 
-//Utils
+// Utils
 int		open_map(char *path, t_game *game);
 char	*split_line(char *line);
-void	display_moves_and_collectibles(t_game *game);
-// void	draw_map(t_game *game);
+int		draw_map(t_game *game);
 
-//Messages
-int		end_game(t_game *game, char *message, int code);
-void	destroy_images(t_game *game);
-void	exit_message(t_game *game, char *message, int code);
+// End
+int		end_game_with_message(t_game *game, char *message, int error);
+int		end_game(t_game *game);
 
 #endif
