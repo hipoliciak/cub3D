@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:20:04 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/11/01 22:14:54 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/11/02 01:57:40 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	open_map(char *path, t_game *game)
 
 	fd = open(path, O_RDONLY);
 	if (fd < 0)
-		end_game(game, "Map not found", 1);
+		end_game_with_message(game, "Map not found", 1);
 	return (fd);
 }
 
@@ -53,6 +53,8 @@ int	draw_map(t_game *game)
 	}
 	printf("Player position: %f, %f\n", game->player.x, game->player.y);
 	printf("Player angle: %f\n", game->player.angle);
+	printf("Player tile position: %d, %d\n",
+		game->player.tile_x, game->player.tile_y);
 	printf("\n");
 	return (0);
 }

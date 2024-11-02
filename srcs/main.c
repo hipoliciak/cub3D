@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:45 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/11/01 22:52:53 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/11/02 02:36:38 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,20 +26,6 @@ static int	key_hook(int keycode, t_game *game)
 		rotate_right(game);
 	draw_map(game);
 	return (0);
-}
-
-static void	init_game(t_game *game)
-{
-	game->mlx_ptr = NULL;
-	game->win_ptr = NULL;
-	game->map.map = NULL;
-	game->map.width = 0;
-	game->map.height = 0;
-	game->map.x_player_pos = 0;
-	game->map.y_player_pos = 0;
-	game->player.x = 0;
-	game->player.y = 0;
-	game->player.angle = 0;
 }
 
 int	main(int argc, char **argv)

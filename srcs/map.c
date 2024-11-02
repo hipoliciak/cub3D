@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:51 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/11/01 22:51:35 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/11/02 01:05:35 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,8 @@
 void	read_map(t_game *game, char *path)
 {
 	int		fd;
-	int		rec_check;
 	char	*line;
 
-	rec_check = 0;
 	fd = open_map(path, game);
 	line = get_next_line(fd);
 	if (!line)
@@ -28,8 +26,6 @@ void	read_map(t_game *game, char *path)
 	game->map.width = ft_strlen(line);
 	while (line)
 	{
-		if ((int)ft_strlen(line) != game->map.width)
-			rec_check = 1;
 		game->map.height++;
 		free(line);
 		line = get_next_line(fd);
@@ -37,8 +33,6 @@ void	read_map(t_game *game, char *path)
 			line = split_line(line);
 	}
 	close(fd);
-	if (rec_check == 1)
-		end_game_with_message(game, "Map not rectangular", 1);
 }
 
 void	fill_map(t_game *game, char *path)

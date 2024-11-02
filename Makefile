@@ -6,7 +6,7 @@
 #    By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/30 23:20:11 by dmodrzej          #+#    #+#              #
-#    Updated: 2024/11/01 22:39:53 by dmodrzej         ###   ########.fr        #
+#    Updated: 2024/11/02 02:36:54 by dmodrzej         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ FLAGS	=	-Wall -Wextra -Werror
 
 # sources
 SRC_DIR =	srcs/
-SRC		=	main.c engine.c graphics.c map.c end.c utils.c
+SRC		=	main.c init.c map.c engine.c graphics.c end.c utils.c
 SRCS	=	$(addprefix $(SRC_DIR), $(SRC))
 
 # objects

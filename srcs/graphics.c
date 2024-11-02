@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:39 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/11/01 22:33:14 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/11/02 02:35:33 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,24 +14,24 @@
 
 void	init_textures(t_game *game)
 {
-	game->textures[0] = create_texture(game, NO); // North texture
-	game->textures[1] = create_texture(game, SO); // South texture
-	game->textures[2] = create_texture(game, WE); // West texture
-	game->textures[3] = create_texture(game, EA); // East texture
+	game->textures[0] = create_texture(game, NO);
+	game->textures[1] = create_texture(game, SO);
+	game->textures[2] = create_texture(game, WE);
+	game->textures[3] = create_texture(game, EA);
 }
 
 t_image	create_texture(t_game *game, char *path)
 {
-	t_image	sprite;
+	t_image	texture;
 
-	sprite.xpm_ptr = mlx_xpm_file_to_image(game->mlx_ptr, path,
-			&sprite.x, &sprite.y);
-	if (!sprite.xpm_ptr)
+	texture.xpm_ptr = mlx_xpm_file_to_image(game->mlx_ptr, path,
+			&texture.x, &texture.y);
+	if (!texture.xpm_ptr)
 		end_game(game);
-	return (sprite);
+	return (texture);
 }
 
-void	render_sprite(t_game *game, t_image *sprite, int line, int column)
+void	render_texture(t_game *game, t_image *sprite, int line, int column)
 {
 	mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, sprite->xpm_ptr,
 		column * TEXTURE_SIZE, line * TEXTURE_SIZE);
