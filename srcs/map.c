@@ -6,11 +6,23 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:51 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/11/02 01:05:35 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/11/03 01:27:49 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	check_extension(char *path)
+{
+	int	len;
+
+	len = ft_strlen(path);
+	if (len < 4)
+		return (0);
+	if (ft_strncmp(&path[len - 4], ".cub", 4) != 0)
+		return (0);
+	return (1);
+}
 
 void	read_map(t_game *game, char *path)
 {
@@ -21,88 +33,92 @@ void	read_map(t_game *game, char *path)
 	line = get_next_line(fd);
 	if (!line)
 		end_game_with_message(game, "No map", 1);
-	if (ft_strchr(line, '\n') != 0)
-		line = split_line(line);
-	game->map.width = ft_strlen(line);
 	while (line)
 	{
 		game->map.height++;
 		free(line);
 		line = get_next_line(fd);
-		if (ft_strchr(line, '\n') != 0)
-			line = split_line(line);
 	}
+	game->map.map = malloc(sizeof(char *) * game->map.height + 1);
+	if (!game->map.map)
+		end_game_with_message(game, "Malloc error", 1);
 	close(fd);
 }
 
 void	fill_map(t_game *game, char *path)
 {
 	int		fd;
-	char	*line;
 	int		i;
+	char	*line;
 
-	if (game->map.height <= 3 || game->map.width <= 3)
-		end_game_with_message(game, "Map too small", 1);
-	fd = open_map(path, game);
-	game->map.map = malloc(game->map.height * sizeof(char *));
-	if (!game->map.map)
-		end_game_with_message(game, "Malloc error", 1);
 	i = 0;
-	while (i < game->map.height)
+	fd = open_map(path, game);
+	line = get_next_line(fd);
+	while (line && i < game->map.height + 1)
 	{
-		line = get_next_line(fd);
-		game->map.map[i] = malloc((game->map.width + 1) * sizeof(char));
+		game->map.map[i] = ft_strdup(line);
 		if (!game->map.map[i])
 			end_game_with_message(game, "Malloc error", 1);
-		ft_strlcpy(game->map.map[i], line, game->map.width + 1);
 		free(line);
+		line = get_next_line(fd);
 		i++;
 	}
 	close(fd);
 }
 
-void	validate_elements(t_game *game)
+void	check_characters(t_game *game)
 {
-	int	i;
-	int	j;
+	int	x;
+	int	y;
 
-	i = 0;
-	while (i < game->map.height)
+	y = 0;
+	while (game->map.map[y])
 	{
-		j = 0;
-		while (j < game->map.width)
+		x = 0;
+		while (game->map.map[y][x] != '\n' && game->map.map[y][x])
 		{
-			if (ft_strchr("01NEWS", game->map.map[i][j]) == NULL)
-				end_game_with_message(game, "Invalid element on the map", 1);
-			j++;
+			if (ft_strchr(" 01NEWS", game->map.map[y][x]) == NULL)
+				end_game_with_message(game, "Invalid character in map", 1);
+			x++;
 		}
-		i++;
+		y++;
 	}
 }
 
 void	check_walls(t_game *game)
 {
-	int	i;
-	int	j;
+	int	x;
+	int	y;
 
-	i = 0;
-	while (i < game->map.height)
+	y = 0;
+	while (game->map.map[y])
 	{
-		j = 0;
-		while (j < game->map.width)
+		x = 0;
+		while (game->map.map[y][x])
 		{
-			if (i == 0 || i == game->map.height)
+			if (y == 0)
 			{
-				if (game->map.map[i][j] != '1')
-					end_game_with_message(game, "Invalid wall", 1);
+				if (game->map.map[y][x] != '1')
+					end_game_with_message(game, "Map not closed", 1);
 			}
-			if (j == 0 || j == game->map.width - 1)
+			if (y > 0 && y < game->map.height - 1)
 			{
-				if (game->map.map[i][j] != '1')
-					end_game_with_message(game, "Invalid wall", 1);
+				while (game->map.map[y][x] == ' ' && game->map.map[y][x])
+					x++;
+				if (game->map.map[y][x] != '1')
+					end_game_with_message(game, "Map not closed", 1);
+				while (game->map.map[y][x] != ' ' && game->map.map[y][x])
+					x++;
+				if (game->map.map[y][x] != '1')
+					end_game_with_message(game, "Map not closed", 1);
 			}
-			j++;
+			if (y == game->map.height - 1)
+			{
+				if (game->map.map[y][x] != '1')
+					end_game_with_message(game, "Map not closed", 1);
+			}
+			x++;
 		}
-		i++;
+		y++;
 	}
 }

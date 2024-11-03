@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:20:04 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/11/02 01:57:40 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/11/03 00:04:39 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,22 @@ char	*split_line(char *line)
 
 int	draw_map(t_game *game)
 {
-	int	i;
+	int	x;
+	int	y;
 
-	i = 0;
-	while (i < game->map.height)
+	y = 0;
+	while (game->map.map[y])
 	{
-		printf("%s\n", game->map.map[i]);
-		i++;
+		x = 0;
+		while (game->map.map[y][x])
+		{
+			printf("%c", game->map.map[y][x]);
+			x++;
+		}
+		y++;
 	}
+	printf("\n");
+	printf("\n");
 	printf("Player position: %f, %f\n", game->player.x, game->player.y);
 	printf("Player angle: %f\n", game->player.angle);
 	printf("Player tile position: %d, %d\n",

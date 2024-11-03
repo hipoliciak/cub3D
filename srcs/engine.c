@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:33 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/11/02 02:03:59 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/11/03 00:02:03 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,3 +71,27 @@ void	rotate_right(t_game *game)
 	if (game->player.angle >= 360.0)
 		game->player.angle -= 360.0;
 }
+
+// void cast_rays(t_game *game)
+// {
+//     int x;
+//     double camera_x;
+//     double ray_dir_x, ray_dir_y;
+//     double perp_wall_dist;
+//     int line_height;
+//     int draw_start, draw_end;
+
+//     for (x = 0; x < WIN_WIDTH; x++)
+//     {
+//         camera_x = 2 * x / (double)WIN_WIDTH - 1;
+//         ray_dir_x = game->player.dir_x + game->player.plane_x * camera_x;
+//         ray_dir_y = game->player.dir_y + game->player.plane_y * camera_x;
+
+//         perp_wall_dist = calculate_distance(game, ray_dir_x, ray_dir_y);
+//         line_height = (int)(WIN_HEIGHT / perp_wall_dist);
+//         draw_start = -line_height / 2 + WIN_HEIGHT / 2;
+//         draw_end = line_height / 2 + WIN_HEIGHT / 2;
+
+//         draw_vertical_slice(game, x, draw_start, draw_end);
+//     }
+// }

@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 02:03:28 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/11/02 02:06:45 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/11/03 00:02:50 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,11 @@ void	init_positions(t_game *game)
 	int	y;
 
 	x = 0;
-	while (x < game->map.width)
+	y = 0;
+	while (game->map.map[y])
 	{
-		y = 0;
-		while (y < game->map.height)
+		x = 0;
+		while (game->map.map[y][x])
 		{
 			if (game->map.map[y][x] == 'N' || game->map.map[y][x] == 'E' ||
 				game->map.map[y][x] == 'W' || game->map.map[y][x] == 'S')
@@ -46,9 +47,9 @@ void	init_positions(t_game *game)
 				game->map.map[y][x] = 'P';
 				return ;
 			}
-			y++;
+			x++;
 		}
-		x++;
+		y++;
 	}
 }
 
