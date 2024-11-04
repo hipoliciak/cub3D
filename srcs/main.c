@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:45 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/11/03 01:12:31 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/11/03 12:22:00 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ int	main(int argc, char **argv)
 	init_textures(&game);
 	read_map(&game, argv[1]);
 	fill_map(&game, argv[1]);
-	check_characters(&game);
-	check_walls(&game);
+	// check_characters(&game);
+	// check_walls(&game);
 	game.win_ptr = mlx_new_window(game.mlx_ptr,
 			WIN_WIDTH, WIN_HEIGHT, "Let's play Cub3D!");
 	if (!game.win_ptr)

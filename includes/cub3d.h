@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:06 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/11/03 01:26:08 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/11/03 13:54:00 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <fcntl.h>
 # include <math.h>
 # include <stdio.h>
+# include <stdbool.h>
 
 # define SPACE " " || "\t" || "\n" || "\v" || "\f" || "\r"
 
