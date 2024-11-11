@@ -6,7 +6,7 @@
 #    By: piotr <piotr@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/30 23:20:11 by dmodrzej          #+#    #+#              #
-#    Updated: 2024/11/04 20:31:26 by piotr            ###   ########.fr        #
+#    Updated: 2024/11/11 13:32:00 by piotr            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,8 @@ NAME	=	cub3D
 
 # compiler
 CC		=	cc
-FLAGS	=	-g -Wall -Wextra -Werror
+# FLAGS	=	-g -Wall -Wextra -Werror
+FLAGS	=	-g 
 
 # sources
 SRC_DIR =	srcs/

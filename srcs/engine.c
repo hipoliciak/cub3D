@@ -3,14 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   engine.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
+/*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:33 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/11/03 00:02:03 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/11/11 18:13:03 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+bool wall_hit(t_game *game, int inter)
+{
+	
+}
+
+void	cast_rays(t_game *game)
+{
+	// need current pos x and y
+	// need angle 
+	int i;
+	int tile_size; // set to macro check if there is any
+	double radians;
+	double ray_angle;
+	int h_inter;
+	int x_inter;
+
+	tile_size = 10;
+
+	radians = game->player.angle * (M_PI / 180);
+	
+	ray_angle = game->player.angle - FOV/2;
+
+	h_inter = (game->player.y / tile_size) * tile_size;
+	x_inter = game->player.x + (h_inter - game->player.y) / tan(ray_angle);
+	i = 0;
+	// while(!wall_hit(game, h_inter) && !wall_hit(game, x_inter))
+	// {
+
+	// 	i++;
+	// }
+
+	
+
+	printf("actual inter position: x = %d, h = %d\n", x_inter, h_inter);
+
+	// printf("player_angle: %lf, ray_angle: %lf\n", game->player.angle, ray_angle);
+	// if inter.h && inter.x = wall(1) then ray.len = twierdzenie pitagorasa
+}
 
 void	update_tile_position(t_game *game)
 {
@@ -19,10 +58,11 @@ void	update_tile_position(t_game *game)
 
 	new_tile_x = (int)game->player.x;
 	new_tile_y = (int)game->player.y;
+
 	if (new_tile_x != game->player.tile_x || new_tile_y != game->player.tile_y)
 	{
-		game->map.map[game->player.tile_y][game->player.tile_x] = '0';
-		game->map.map[new_tile_y][new_tile_x] = 'P';
+		game->map.map[game->map.height -  game->player.tile_y - 1][game->player.tile_x] = '0';
+		game->map.map[game->map.height -  new_tile_y - 1][new_tile_x] = 'P';
 		game->player.tile_x = new_tile_x;
 		game->player.tile_y = new_tile_y;
 	}
@@ -41,6 +81,7 @@ void	move_forward(t_game *game)
 		game->player.y = move_y;
 		update_tile_position(game);
 	}
+	cast_rays(game);
 }
 
 void	move_backward(t_game *game)
@@ -56,13 +97,16 @@ void	move_backward(t_game *game)
 		game->player.y = move_y;
 		update_tile_position(game);
 	}
+	cast_rays(game);
 }
+
 
 void	rotate_left(t_game *game)
 {
 	game->player.angle -= 5.0;
 	if (game->player.angle < 0.0)
 		game->player.angle += 360.0;
+	cast_rays(game);
 }
 
 void	rotate_right(t_game *game)
@@ -70,7 +114,9 @@ void	rotate_right(t_game *game)
 	game->player.angle += 5.0;
 	if (game->player.angle >= 360.0)
 		game->player.angle -= 360.0;
+	cast_rays(game);
 }
+
 
 // void cast_rays(t_game *game)
 // {
