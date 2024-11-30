@@ -6,7 +6,7 @@
 /*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/02 02:03:28 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/11/11 17:27:44 by piotr            ###   ########.fr       */
+/*   Updated: 2024/11/19 17:11:19 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	init_positions(t_game *game)
 				game->player.tile_y = game->map.height - y - 1;
 				init_angle(game, x, y);
 				game->map.map[y][x] = 'P';
+				cast_rays(game);
 				return ;
 			}
 			x++;

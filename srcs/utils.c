@@ -6,7 +6,7 @@
 /*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:20:04 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/11/11 16:05:43 by piotr            ###   ########.fr       */
+/*   Updated: 2024/11/20 14:01:36 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	draw_map(t_game *game)
 	printf("\n");
 	printf("\n");
 	printf("Player position: %f, %f\n", game->player.x, game->player.y);
-	printf("Player angle: %f\n", game->player.angle);
+	// printf("Player angle: %f\n", game->player.angle);
 	printf("Player tile position: %d, %d\n",
 		game->player.tile_x, game->player.tile_y);
 	printf("\n");

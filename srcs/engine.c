@@ -6,7 +6,7 @@
 /*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:33 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/11/11 18:13:03 by piotr            ###   ########.fr       */
+/*   Updated: 2024/11/30 21:05:39 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 bool wall_hit(t_game *game, int inter)
 {
-	
+	return false;
 }
 
 void	cast_rays(t_game *game)
@@ -25,29 +25,50 @@ void	cast_rays(t_game *game)
 	int tile_size; // set to macro check if there is any
 	double radians;
 	double ray_angle;
-	int h_inter;
-	int x_inter;
+	double h_inter;
+	double x_inter;
 
 	tile_size = 10;
+	ray_angle = fmod(((game->player.angle - FOV / 2) + 360), 360);
+	radians = (ray_angle) * (M_PI / 180);
 
-	radians = game->player.angle * (M_PI / 180);
-	
-	ray_angle = game->player.angle - FOV/2;
+	if((ray_angle) <= 45 || (ray_angle) > 315)
+	{
+		x_inter = ceil((game->player.x / tile_size) * tile_size);
+		h_inter = game->player.y + (x_inter - game->player.x) * tan(radians);
+	}
+	else if((ray_angle) <= 135)
+	{
+		h_inter = ceil((game->player.y / tile_size) * tile_size);
+		x_inter = game->player.x + (h_inter - game->player.y) / tan(radians);
+		printf("what is the tile: %c\n", game->map.map[(int)h_inter][(int)x_inter]);
+		while(game->map.map[(int)h_inter][(int)x_inter] == '0')
+		{
+			printf("intersection: x = %lf, h = %lf\n", x_inter, h_inter);
+			h_inter++;
+			x_inter = game->player.x + (h_inter - game->player.y) / tan(radians);
+		}
+			printf("after wall hit: x = %lf, h = %lf\n", x_inter, h_inter);
 
-	h_inter = (game->player.y / tile_size) * tile_size;
-	x_inter = game->player.x + (h_inter - game->player.y) / tan(ray_angle);
+	}
+	else if((ray_angle) <= 225)
+	{
+		x_inter = floor((game->player.x / tile_size) * tile_size);
+		h_inter = game->player.y + (x_inter - game->player.x) * tan(radians);	
+	}
+	else if((ray_angle) <= 315)
+	{
+		h_inter = floor((game->player.y / tile_size) * tile_size);
+		x_inter = game->player.x + (h_inter - game->player.y) / tan(radians);
+	}
 	i = 0;
-	// while(!wall_hit(game, h_inter) && !wall_hit(game, x_inter))
-	// {
 
-	// 	i++;
-	// }
+	printf("actual ray angle: %lf\n", ray_angle);
+	printf("Player angle: %f\n", game->player.angle);
+	printf("actual ray radians: %lf\n", radians);
+	// printf("actual inter position: x = %lf, h = %lf\n", x_inter, h_inter);
 
-	
-
-	printf("actual inter position: x = %d, h = %d\n", x_inter, h_inter);
-
-	// printf("player_angle: %lf, ray_angle: %lf\n", game->player.angle, ray_angle);
+	// printf("player_angle: %lf, radians: %lf\n", game->player.angle, radians);
 	// if inter.h && inter.x = wall(1) then ray.len = twierdzenie pitagorasa
 }
 
@@ -72,10 +93,10 @@ void	move_forward(t_game *game)
 {
 	double	move_x;
 	double	move_y;
-
+	
 	move_x = game->player.x + cos(game->player.angle * M_PI / 180) * MOVE_STEP;
 	move_y = game->player.y + sin(game->player.angle * M_PI / 180) * MOVE_STEP;
-	if (game->map.map[(int)move_y][(int)move_x] != '1')
+	if (game->map.map[game->map.height - 1 - (int)move_y][(int)move_x] != '1')
 	{
 		game->player.x = move_x;
 		game->player.y = move_y;
@@ -91,7 +112,7 @@ void	move_backward(t_game *game)
 
 	move_x = game->player.x - cos(game->player.angle * M_PI / 180) * MOVE_STEP;
 	move_y = game->player.y - sin(game->player.angle * M_PI / 180) * MOVE_STEP;
-	if (game->map.map[(int)move_y][(int)move_x] != '1')
+	if (game->map.map[game->map.height - 1 - (int)move_y][(int)move_x] != '1')
 	{
 		game->player.x = move_x;
 		game->player.y = move_y;
@@ -101,7 +122,7 @@ void	move_backward(t_game *game)
 }
 
 
-void	rotate_left(t_game *game)
+void	rotate_right(t_game *game)
 {
 	game->player.angle -= 5.0;
 	if (game->player.angle < 0.0)
@@ -109,7 +130,7 @@ void	rotate_left(t_game *game)
 	cast_rays(game);
 }
 
-void	rotate_right(t_game *game)
+void	rotate_left(t_game *game)
 {
 	game->player.angle += 5.0;
 	if (game->player.angle >= 360.0)

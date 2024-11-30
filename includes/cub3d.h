@@ -6,7 +6,7 @@
 /*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:06 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/11/03 13:54:00 by piotr            ###   ########.fr       */
+/*   Updated: 2024/11/19 17:11:43 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void    move_forward(t_game *game);
 void    move_backward(t_game *game);
 void    rotate_left(t_game *game);
 void    rotate_right(t_game *game);
+void	cast_rays(t_game *game);
 
 // Graphics
 void    init_textures(t_game *game);
