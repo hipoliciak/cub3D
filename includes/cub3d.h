@@ -6,7 +6,7 @@
 /*   By: piotr <piotr@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:06 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/11/19 17:11:43 by piotr            ###   ########.fr       */
+/*   Updated: 2024/12/15 15:41:35 by piotr            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,11 @@
 // Rendering constants
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
-# define FOV 60.0
-# define NUM_RAYS 320
+# define FOV 60
+// # define NUM_RAYS 320
 
 // Movement and raycasting
+# define TILE_SIZE 10
 # define MOVE_STEP 0.1
 # define STEP_SIZE 0.05
 # define M_PI 3.14159265358979323846
@@ -66,6 +67,7 @@ typedef struct s_player
     double  x;
     double  y;
     double  angle;
+    double  rays_len[FOV];
     int     tile_x;
     int     tile_y;
 }   t_player;
