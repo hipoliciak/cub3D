@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:06 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/16 01:06:39 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/16 21:27:13 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,19 +73,19 @@ typedef struct s_map
 
 typedef struct s_player
 {
-    double  pos_x;
-    double  pos_y;
-    double  angle;
-    double  rays_len[FOV];
-    int     tile_x;
-    int     tile_y;
+	double	pos_x;
+	double	pos_y;
+	double	angle;
+	double	rays_len[FOV];
+	int		tile_x;
+	int		tile_y;
 	char	dir;
 	double	dir_x;
 	double	dir_y;
 	double	plane_x;
 	double	plane_y;
 	int		key_state[6];
-}   t_player;
+}	t_player;
 
 typedef struct s_game
 {
@@ -117,9 +117,9 @@ int				is_xpm_file(char *arg);
 
 // Check map
 int				check_map(t_game *game);
+int				check_map_content(t_map *map);
 int				check_map_top_bottom(char **map, int i, int j);
-int				check_map_borders(t_map *map);
-int				check_map_elements(t_game *game, char **map);
+int				check_map_inside(char **map, int i, int j, int k);
 
 // Init player
 int				check_player_position(t_game *game, char **map);
@@ -131,8 +131,8 @@ void			init_player_east_west(t_player *player);
 int				read_file(char *path, t_game *game);
 void			fill_tab(int row, t_game *game);
 int				get_number_of_lines(char *path);
-int				parse_file(t_game *game, char **mapf);
-int				process_line_content(t_game *game, char **mapf, int i, int j);
+int				parse_file(t_game *game);
+int				process_line_content(t_game *game, char **map, int i, int j);
 int				set_direction_textures(t_tex *textures, char *line, int j);
 char			*get_texture_path(char *line, int j);
 int				set_color_textures(t_tex *textures, char *line, int j);
@@ -141,15 +141,6 @@ int				check_rgb_strings(char **rgb_strings, int count);
 int				rgb_str_digits(char *str);
 int				*convert_rgb(char **rgb_strings);
 unsigned long	convert_rgb_to_hex(int *rgb_tab);
-
-// Map
-int		check_extension(char *path);
-void	read_map(t_game *game, char *path);
-// void	fill_map(t_game *game, char *path);
-void	check_characters(t_game *game);
-void	check_walls(t_game *game);
-
-
 
 // Engine
 void    update_tile_position(t_game *game);
@@ -170,11 +161,12 @@ void			try_move(t_game *game, double new_x, double new_y);
 void			rotate_player(t_player *p, double angle);
 
 // Utils
-size_t			find_biggest_len(t_map *map, int i);
+int				count_map_lines(t_game *game, int map_start);
 int				err(char *str, int code);
 int				ft_isspace(int c);
 int				ft_isspace_not_nl(int c);
-int    			draw_map(t_game *game);
+int				is_surrounded_by_space_or_wall(char **map, int i, int j);
+int				draw_map(t_game *game);
 
 // End
 void			clean_exit(t_game *game, int code);

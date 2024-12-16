@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:45 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/16 01:19:12 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/16 16:31:53 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static int	parse_args(t_game *game, char **av)
 		return (err("Not a .cub file", 1));
 	if (read_file(av[1], game))
 		return (err("Could not read file", 1));
-	if (parse_file(game, game->map.map))
+	if (parse_file(game))
 		return (free_game(game));
 	// while (game->map.map[i])
 	// {

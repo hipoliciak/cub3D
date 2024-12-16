@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:08:09 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/16 01:07:38 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/16 17:38:19 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,53 +89,48 @@ int	set_color_textures(t_tex *textures, char *line, int j)
 	return (0);
 }
 
-int	process_line_content(t_game *game, char **mapf, int i, int j)
+int	process_line_content(t_game *game, char **map, int i, int j)
 {
-	while (mapf[i][j] == ' ' || mapf[i][j] == '\t' || mapf[i][j] == '\n')
+	while (ft_isspace(map[i][j]))
 		j++;
-	if (ft_isprint(mapf[i][j]) && mapf[i][j] != ' ' && !ft_isdigit(mapf[i][j]))
+	if (ft_isprint(map[i][j]) && map[i][j] != ' ' && !ft_isdigit(map[i][j]))
 	{
-		if (mapf[i][j + 1] && ft_isprint(mapf[i][j + 1]) &&
-			mapf[i][j + 1] != ' ' && !ft_isdigit(mapf[i][j]))
+		if (map[i][j + 1] && ft_isprint(map[i][j + 1]) &&
+			map[i][j + 1] != ' ' && !ft_isdigit(map[i][j]))
 		{
-			if (set_direction_textures(&game->texture, mapf[i], j))
+			if (set_direction_textures(&game->texture, map[i], j))
 				return (err("Invalid texture", 2));
 			return (-1);
 		}
 		else
 		{
-			if (set_color_textures(&game->texture, mapf[i], j))
+			if (set_color_textures(&game->texture, map[i], j))
 				return (err("Invalid RGB color", 2));
 			return (-1);
 		}
 	}
-	else if (ft_isdigit(mapf[i][j]))
+	else if (ft_isdigit(map[i][j]))
 	{
-		game->map.start_of_map = i;
-		while (game->map.map[i])
-			i++;
-		if (i == game->map.start_of_map)
-			return (err("Invalid map", 2));
-		game->map.end_of_map = i - 1;
-		game->map.height = i - game->map.start_of_map;
+		if (count_map_lines(game, i))
+			return (2);
 		return (0);
 	}
 	return (1);
 }
 
-int	parse_file(t_game *game, char **mapf)
+int	parse_file(t_game *game)
 {
 	int	i;
 	int	j;
 	int	ret;
 
 	i = 0;
-	while (mapf[i])
+	while (game->map.map[i])
 	{
 		j = 0;
-		while (mapf[i][j])
+		while (game->map.map[i][j])
 		{
-			ret = process_line_content(game, mapf, i, j);
+			ret = process_line_content(game, game->map.map, i, j);
 			if (ret == -1)
 				break ;
 			else if (ret == 2)

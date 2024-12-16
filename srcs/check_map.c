@@ -6,43 +6,40 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:06:57 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/16 01:05:27 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/16 21:21:47 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	check_map_elements(t_game *game, char **map)
+int	check_map_inside(char **map, int i, int j, int k)
 {
-	int	i;
-	int	j;
-
-	i = game->map.start_of_map;
-	game->player.dir = '0';
-	while (map[i])
+	while (ft_isspace_not_nl(map[i][k]))
+		k++;
+	while (map[i][k] && k < j)
 	{
-		j = 0;
-		while (map[i][j])
+		if (map[i][k] != '1')
+			return (1);
+		while (map[i][k] && map[i][k] != ' ')
 		{
-			while (ft_isspace_not_nl(map[i][j]))
-				j++;
-			if (!(ft_strchr("10NEWS", map[i][j])))
-				return (1);
-			if (ft_strchr("NEWS", map[i][j]) && game->player.dir != '0')
-				return (1);
-			if (ft_strchr("NEWS", map[i][j]) && game->player.dir == '0')
-				game->player.dir = map[i][j];
-			j++;
+			if (!ft_strchr("10NEWS", map[i][k]))
+				return (2);
+			k++;
 		}
-		i++;
+		if (map[i][k - 1] != '1')
+			return (1);
+		while (ft_isspace_not_nl(map[i][k]) && map[i][k])
+		{
+			if (is_surrounded_by_space_or_wall(map, i, k))
+				return (1);
+			k++;
+		}
 	}
 	return (0);
 }
 
 int	check_map_top_bottom(char **map, int i, int j)
 {
-	if (!map || !map[i] || !map[i][j])
-		return (1);
 	while (ft_isspace_not_nl(map[i][j]))
 		j++;
 	while (map[i][j])
@@ -54,7 +51,7 @@ int	check_map_top_bottom(char **map, int i, int j)
 	return (0);
 }
 
-int	check_map_borders(t_map *map)
+int	check_map_content(t_map *map)
 {
 	int	i;
 	int	j;
@@ -63,17 +60,16 @@ int	check_map_borders(t_map *map)
 	if (check_map_top_bottom(map->map, map->start_of_map, 0))
 		return (1);
 	i = map->start_of_map + 1;
-	while (i < map->end_of_map - 1)
+	j = ft_strlen(map->map[i]);
+	while (i < map->end_of_map)
 	{
 		k = 0;
-		while (ft_isspace_not_nl(map->map[i][k]))
-			k++;
-		j = ft_strlen(map->map[i]) - 1;
-		if (map->map[i][k] != '1' && map->map[i][k] != ' ')
+		if (check_map_inside(map->map, i, j, k) == 1)
 			return (1);
-		if (map->map[i][j] != '1' && map->map[i][j] != ' ')
-			return (1);
-		i++;
+		else if (check_map_inside(map->map, i, j, k) == 2)
+			return (2);
+		else
+			i++;
 	}
 	if (check_map_top_bottom(map->map, map->end_of_map, 0))
 		return (1);
@@ -84,15 +80,13 @@ int	check_map(t_game *game)
 {
 	if (game->map.start_of_map == 0)
 		return (err("Map not found", 1));
-	if (check_map_borders(&game->map))
+	if (check_map_content(&game->map) == 1)
 		return (err("Invalid map borders", 1));
+	if (check_map_content(&game->map) == 2)
+		return (err("Invalid map elements", 1));
 	if (game->map.height < 3)
 		return (err("Map too small", 1));
-	if (check_map_elements(game, game->map.map))
-		return (err("Invalid map elements", 1));
 	if (check_player_position(game, game->map.map))
 		return (err("Invalid player position", 1));
-	if (game->map.map[game->map.end_of_map + 1] != NULL)
-		return (err("There is something after the map", 1));
 	return (0);
 }

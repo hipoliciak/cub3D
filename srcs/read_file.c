@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:09:24 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/15 23:58:28 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/16 16:29:08 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	fill_tab(int row, t_game *game)
 			err("Could not allocate memory", 1);
 			free_tab((void **)game->map.map);
 			free(line);
-			return;
+			return ;
 		}
 		free(line);
 		line = get_next_line(game->map.fd);

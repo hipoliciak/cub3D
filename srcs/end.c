@@ -6,26 +6,27 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:58 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/15 23:27:28 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/16 16:28:30 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void free_tab(void **tab)
+void	free_tab(void **tab)
 {
-    int i = 0;
+	int	i;
 
-    if (tab)
-    {
-        while (tab[i])
-        {
-            free(tab[i]);
-            i++;
-        }
-        free(tab);
+	i = 0;
+	if (tab)
+	{
+		while (tab[i])
+		{
+			free(tab[i]);
+			i++;
+		}
+		free(tab);
 		tab = NULL;
-    }
+	}
 }
 
 void	free_texture(t_tex *textures)
