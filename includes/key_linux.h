@@ -6,22 +6,21 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:17 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/10/30 23:19:21 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/15 17:56:20 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef KEY_LINUX_H
 # define KEY_LINUX_H
 
-# define CLOSE_BTN 17
-
-# define KEY_RELEASE	3
-# define DESTROY_NOTIFY	17
-# define EXPOSE		12
-
+# define KEY_PRESS          2
+# define KEY_PRESS_MASK     1
+# define KEY_RELEASE		3
 # define KEY_RELEASE_MASK	2
+# define EXPOSE				12
 # define NO_EVENT_MASK		0
 # define EXPOSURE_MASK		32768
+# define CLOSE_BTN			17
 
 /*
 ** Keyboard LETTERS
