@@ -6,11 +6,23 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:08:36 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/15 18:39:21 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/21 22:01:47 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+void	init_texture_img(t_game *game, t_image *image, char *path)
+{
+	init_image(image);
+	image->img = mlx_xpm_file_to_image(game->mlx, path, &game->texture.size,
+			&game->texture.size);
+	if (image->img == NULL)
+		clean_exit(game, err("Could not create image", 1));
+	image->addr = (int *)mlx_get_data_addr(image->img, &image->pixel_bits,
+			&image->size_line, &image->endian);
+	return ;
+}
 
 int	*xpm_to_img(t_game *game, char *path)
 {
@@ -49,17 +61,4 @@ void	init_textures(t_game *game)
 	game->textures[1] = xpm_to_img(game, game->texture.south);
 	game->textures[2] = xpm_to_img(game, game->texture.east);
 	game->textures[3] = xpm_to_img(game, game->texture.west);
-}
-
-void	init_tex(t_tex *textures)
-{
-	textures->north = NULL;
-	textures->south = NULL;
-	textures->west = NULL;
-	textures->east = NULL;
-	textures->floor = 0;
-	textures->ceiling = 0;
-	textures->hex_floor = 0x0;
-	textures->hex_ceiling = 0x0;
-	textures->size = TEX_SIZE;
 }

@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:09:51 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/15 18:58:31 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/21 21:36:50 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,32 @@ void	rotate_player(t_player *p, double angle)
 	p->plane_y = tmp_plane_x * sin(angle) + p->plane_y * cos(angle);
 }
 
-void	try_move(t_game *game, double new_x, double new_y)
+void	try_move(t_game *game, double target_x, double target_y)
 {
-	if (game->map.map[(int)new_y][(int)new_x] == '0')
+	int	old_x;
+	int	old_y;
+	int	new_x;
+	int	new_y;
+
+	old_x = (int)game->player.pos_x;
+	old_y = (int)game->player.pos_y;
+	new_x = (int)target_x;
+	new_y = (int)target_y;
+	if (new_x != old_x || new_y != old_y)
 	{
-		game->player.pos_x = new_x;
-		game->player.pos_y = new_y;
+		if (game->map.map[new_y][new_x] == '0')
+		{
+			game->map.map[old_y][old_x] = '0';
+			game->map.map[new_y][new_x] = 'P';
+			game->player.pos_x = target_x;
+			game->player.pos_y = target_y;
+			draw_map(game);
+		}
+	}
+	else
+	{
+		game->player.pos_x = target_x;
+		game->player.pos_y = target_y;
 	}
 }
 

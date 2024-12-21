@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:09:24 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/16 16:29:08 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/21 18:34:40 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,33 +36,6 @@ int	get_number_of_lines(char *path)
 	return (line_count);
 }
 
-// void	fill_tab(int row, t_game *game)
-// {
-// 	char	*line;
-// 	int		i;
-
-// 	i = 0;
-// 	line = get_next_line(game->map.fd);
-// 	while (line != NULL)
-// 	{
-// 		while (line[i] != '\0' && line[i] != '\n')
-// 			i++;
-// 		line[i] = '\0';
-// 		game->map.map[row] = ft_strdup(line);
-// 		if (!game->map.map[row])
-// 		{
-// 			err("Could not allocate memory", 1);
-// 			free_tab((void **)game->map.map);
-// 			free(line);
-// 			return ;
-// 		}
-// 		free(line);
-// 		line = get_next_line(game->map.fd);
-// 		row++;
-// 	}
-// 	game->map.map[row] = NULL;
-// }
-
 void	fill_tab(int row, t_game *game)
 {
 	char	*line;
@@ -76,14 +49,13 @@ void	fill_tab(int row, t_game *game)
 			i++;
 		line[i] = '\0';
 		game->map.map[row] = ft_strdup(line);
+		free(line);
 		if (!game->map.map[row])
 		{
 			err("Could not allocate memory", 1);
 			free_tab((void **)game->map.map);
-			free(line);
 			return ;
 		}
-		free(line);
 		line = get_next_line(game->map.fd);
 		row++;
 	}
@@ -96,7 +68,6 @@ int	read_file(char *path, t_game *game)
 
 	row = 0;
 	game->map.line_count = get_number_of_lines(path);
-	game->map.path = path;
 	game->map.map = malloc(sizeof(char *) * (game->map.line_count + 1));
 	if (!(game->map.map))
 		return (err("Could not allocate memory", 1));

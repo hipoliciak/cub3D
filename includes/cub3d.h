@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:06 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/16 21:27:13 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/21 22:34:34 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@
 
 typedef struct s_image
 {
-	void	*img;
-	int		*addr;
-	int		pixel_bits;
-	int		size_line;
-	int		endian;
+	void		*img;
+	int			*addr;
+	int			pixel_bits;
+	int			size_line;
+	int			endian;
 }	t_image;
 
 typedef struct s_tex
@@ -61,30 +61,27 @@ typedef struct s_tex
 
 typedef struct s_map
 {
-	int		fd;
-	int		line_count;
-	char	*path;
-	char	**map;
-	int		height;
-	int		width;
-	int		start_of_map;
-	int		end_of_map;
+	int			fd;
+	char		**map;
+	int			line_count;
+	int			height;
+	int			width;
+	int			start_of_map;
+	int			end_of_map;
 }	t_map;
 
 typedef struct s_player
 {
-	double	pos_x;
-	double	pos_y;
-	double	angle;
-	double	rays_len[FOV];
-	int		tile_x;
-	int		tile_y;
-	char	dir;
-	double	dir_x;
-	double	dir_y;
-	double	plane_x;
-	double	plane_y;
-	int		key_state[6];
+	char		dir;
+	double		dir_x;
+	double		dir_y;
+	double		pos_x;
+	double		pos_y;
+	double		plane_x;
+	double		plane_y;
+	int			key_state[6];
+	double		angle;
+	double		rays_len[FOV];
 }	t_player;
 
 typedef struct s_game
@@ -95,6 +92,7 @@ typedef struct s_game
 	int			win_width;
 	t_map		map;
 	t_player	player;
+	int			player_count;
 	int			**textures;
 	t_tex		texture;
 }	t_game;
@@ -103,12 +101,10 @@ typedef struct s_game
 void			init_game(t_game *game);
 void			init_player(t_player *player);
 void			init_map(t_map *map);
-void			init_mlx(t_game *game);
 void			init_tex(t_tex *textures);
 void			init_textures(t_game *game);
 void			init_texture_img(t_game *game, t_image *image, char *path);
-// void			init_img(t_game *game, t_image *image, int width, int height);
-void			init_img_clean(t_image *img);
+void			init_image(t_image *image);
 
 // Check file
 int				is_cub_file(char *arg);
@@ -143,17 +139,8 @@ int				*convert_rgb(char **rgb_strings);
 unsigned long	convert_rgb_to_hex(int *rgb_tab);
 
 // Engine
-void    update_tile_position(t_game *game);
-void    move_forward(t_game *game);
-void    move_backward(t_game *game);
-void    rotate_left(t_game *game);
-void    rotate_right(t_game *game);
-void	cast_rays(t_game *game);
-
-// Graphics
-void    init_textures(t_game *game);
-t_image create_texture(t_game *game, char *path);
-void    render_texture(t_game *game, t_image *sprite, int line, int column);
+int				render_game(t_game *game);
+void			render_frame(t_game *game);
 
 // Movement
 int				move_player(t_game *game);
@@ -174,5 +161,10 @@ int				quit_cub3d(t_game *game);
 void			free_tab(void **tab);
 void			free_texture(t_tex *textures);
 int				free_game(t_game *game);
+
+// Legacy
+void			cast_rays(t_game *game);
+void			init_textures(t_game *game);
+t_image			create_texture(t_game *game, char *path);
 
 #endif

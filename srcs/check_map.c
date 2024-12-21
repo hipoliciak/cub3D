@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:06:57 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/16 21:21:47 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/21 19:02:07 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_map_inside(char **map, int i, int j, int k)
 		}
 		if (map[i][k - 1] != '1')
 			return (1);
-		while (ft_isspace_not_nl(map[i][k]) && map[i][k])
+		while (map[i][k] && ft_isspace_not_nl(map[i][k]))
 		{
 			if (is_surrounded_by_space_or_wall(map, i, k))
 				return (1);
@@ -56,17 +56,19 @@ int	check_map_content(t_map *map)
 	int	i;
 	int	j;
 	int	k;
+	int	ret;
 
 	if (check_map_top_bottom(map->map, map->start_of_map, 0))
 		return (1);
 	i = map->start_of_map + 1;
-	j = ft_strlen(map->map[i]);
 	while (i < map->end_of_map)
 	{
+		j = ft_strlen(map->map[i]);
 		k = 0;
-		if (check_map_inside(map->map, i, j, k) == 1)
+		ret = check_map_inside(map->map, i, j, k);
+		if (ret == 1)
 			return (1);
-		else if (check_map_inside(map->map, i, j, k) == 2)
+		else if (ret == 2)
 			return (2);
 		else
 			i++;
@@ -88,5 +90,9 @@ int	check_map(t_game *game)
 		return (err("Map too small", 1));
 	if (check_player_position(game, game->map.map))
 		return (err("Invalid player position", 1));
+	if (game->player.dir == '\0')
+		return (err("Player not initialized", 1));
+	if (game->player_count != 1)
+		return (err("Wrong number of players", 1));
 	return (0);
 }
