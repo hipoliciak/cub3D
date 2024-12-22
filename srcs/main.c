@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:45 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/21 19:07:11 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/22 17:49:17 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,13 +55,13 @@ static int	parse_args(t_game *game, char **av)
 {
 	if (is_cub_file(av[1]))
 		return (err("Not a .cub file", 1));
-	if (read_file(av[1], game))
+	if (read_file(game, av[1]))
 		return (err("Could not read file", 1));
 	if (parse_file(game))
 		return (free_game(game));
 	if (check_map(game))
 		return (free_game(game));
-	if (check_textures(&game->texture))
+	if (check_texdata(game))
 		return (free_game(game));
 	if (game->player.dir == 'N' || game->player.dir == 'S')
 		init_player_north_south(&game->player);
@@ -73,10 +73,11 @@ static int	parse_args(t_game *game, char **av)
 		game->player.dir_x, game->player.dir_y);
 	printf("Player plane: %f, %f\n",
 		game->player.plane_x, game->player.plane_y);
-	printf("Textures: %s, %s, %s, %s\n", game->texture.north,
-		game->texture.south, game->texture.east, game->texture.west);
-	printf("Floor color: %ld\n", game->texture.hex_floor);
-	printf("Ceiling color: %ld\n", game->texture.hex_ceiling);
+	printf("Textures: %s, %s, %s, %s\n",
+		game->texdata.north_path, game->texdata.south_path,
+		game->texdata.west_path, game->texdata.east_path);
+	printf("Floor color: %lu\n", game->hex_floor);
+	printf("Ceiling color: %lu\n", game->hex_ceiling);
 	draw_map(game);
 	return (0);
 }
@@ -96,7 +97,7 @@ int	main(int ac, char **av)
 	game.win = mlx_new_window(game.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3d");
 	if (!game.win)
 		clean_exit(&game, err("Could not create window", 1));
-	init_textures(&game);
+	create_textures(&game);
 	mlx_hook(game.win, KEY_PRESS, KEY_PRESS_MASK, key_press, &game);
 	mlx_hook(game.win, KEY_RELEASE, KEY_RELEASE_MASK, key_release, &game);
 	mlx_hook(game.win, CLOSE_BTN, NO_EVENT_MASK, quit_cub3d, &game);

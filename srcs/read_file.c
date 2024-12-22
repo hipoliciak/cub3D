@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:09:24 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/21 18:34:40 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/21 23:21:02 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,13 @@ int	get_number_of_lines(char *path)
 	return (line_count);
 }
 
-void	fill_tab(int row, t_game *game)
+void	fill_map(t_game *game)
 {
 	char	*line;
 	int		i;
+	int		j;
 
+	j = 0;
 	line = get_next_line(game->map.fd);
 	while (line != NULL)
 	{
@@ -48,27 +50,26 @@ void	fill_tab(int row, t_game *game)
 		while (line[i] != '\0' && line[i] != '\n')
 			i++;
 		line[i] = '\0';
-		game->map.map[row] = ft_strdup(line);
+		game->map.map[j] = ft_strdup(line);
 		free(line);
-		if (!game->map.map[row])
+		if (!game->map.map[j])
 		{
 			err("Could not allocate memory", 1);
 			free_tab((void **)game->map.map);
 			return ;
 		}
 		line = get_next_line(game->map.fd);
-		row++;
+		j++;
 	}
-	game->map.map[row] = NULL;
+	game->map.map[j] = NULL;
 }
 
-int	read_file(char *path, t_game *game)
+int	read_file(t_game *game, char *path)
 {
-	int		row;
+	int	line_count;
 
-	row = 0;
-	game->map.line_count = get_number_of_lines(path);
-	game->map.map = malloc(sizeof(char *) * (game->map.line_count + 1));
+	line_count = get_number_of_lines(path);
+	game->map.map = malloc(sizeof(char *) * (line_count + 1));
 	if (!(game->map.map))
 		return (err("Could not allocate memory", 1));
 	game->map.fd = open(path, O_RDONLY);
@@ -79,7 +80,7 @@ int	read_file(char *path, t_game *game)
 	}
 	else
 	{
-		fill_tab(row, game);
+		fill_map(game);
 		close(game->map.fd);
 	}
 	return (0);

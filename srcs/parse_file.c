@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:08:09 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/21 18:57:35 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/22 17:54:31 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,21 +40,21 @@ char	*get_texture_path(char *line, int j)
 	return (path);
 }
 
-int	set_direction_textures(t_tex *textures, char *line, int j)
+int	set_direction_textures(t_texdata *texdata, char *line, int j)
 {
 	char	*identifier;
 
 	identifier = ft_substr(line, j, 2);
 	if (!identifier)
 		return (1);
-	if (!ft_strncmp(identifier, "NO", 2) && !textures->north)
-		textures->north = get_texture_path(line, j + 2);
-	else if (!ft_strncmp(identifier, "SO", 2) && !textures->south)
-		textures->south = get_texture_path(line, j + 2);
-	else if (!ft_strncmp(identifier, "WE", 2) && !textures->west)
-		textures->west = get_texture_path(line, j + 2);
-	else if (!ft_strncmp(identifier, "EA", 2) && !textures->east)
-		textures->east = get_texture_path(line, j + 2);
+	if (!ft_strncmp(identifier, "NO", 2) && !texdata->north_path)
+		texdata->north_path = get_texture_path(line, j + 2);
+	else if (!ft_strncmp(identifier, "SO", 2) && !texdata->south_path)
+		texdata->south_path = get_texture_path(line, j + 2);
+	else if (!ft_strncmp(identifier, "WE", 2) && !texdata->west_path)
+		texdata->west_path = get_texture_path(line, j + 2);
+	else if (!ft_strncmp(identifier, "EA", 2) && !texdata->east_path)
+		texdata->east_path = get_texture_path(line, j + 2);
 	else
 	{
 		free(identifier);
@@ -64,25 +64,21 @@ int	set_direction_textures(t_tex *textures, char *line, int j)
 	return (0);
 }
 
-int	set_color_textures(t_tex *textures, char *line, int j)
+int	set_color_textures(t_texdata *texdata, char *line, int j)
 {
 	if (line[j + 1] && ft_isprint(line[j + 1]) && line[j + 1] != ' ')
 		return (2);
-	if (!textures->ceiling && line[j] == 'C')
+	if (!texdata->rgb_ceiling && line[j] == 'C')
 	{
-		textures->ceiling = parse_rgb(line + j + 1);
-		if (!textures->ceiling)
+		texdata->rgb_ceiling = parse_rgb(line + j + 1);
+		if (!texdata->rgb_ceiling)
 			return (2);
-		else
-			textures->hex_ceiling = convert_rgb_to_hex(textures->ceiling);
 	}
-	else if (!textures->floor && line[j] == 'F')
+	else if (!texdata->rgb_floor && line[j] == 'F')
 	{
-		textures->floor = parse_rgb(line + j + 1);
-		if (!textures->floor)
+		texdata->rgb_floor = parse_rgb(line + j + 1);
+		if (!texdata->rgb_floor)
 			return (2);
-		else
-			textures->hex_floor = convert_rgb_to_hex(textures->floor);
 	}
 	else
 		return (2);
@@ -98,13 +94,13 @@ int	process_line_content(t_game *game, char **map, int i, int j)
 		if (map[i][j + 1] && ft_isprint(map[i][j + 1]) &&
 			map[i][j + 1] != ' ' && !ft_isdigit(map[i][j]))
 		{
-			if (set_direction_textures(&game->texture, map[i], j))
+			if (set_direction_textures(&game->texdata, map[i], j))
 				return (err("Invalid texture", 2));
 			return (-1);
 		}
 		else
 		{
-			if (set_color_textures(&game->texture, map[i], j))
+			if (set_color_textures(&game->texdata, map[i], j))
 				return (err("Invalid RGB color", 2));
 			return (-1);
 		}

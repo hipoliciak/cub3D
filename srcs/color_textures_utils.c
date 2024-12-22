@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_color_textures.c                               :+:      :+:    :+:   */
+/*   color_textures_utils.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:07:47 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/14 23:22:01 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/22 18:23:35 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,21 +50,7 @@ int	check_rgb_strings(char **rgb_strings, int count)
 	return (1);
 }
 
-unsigned long	convert_rgb_to_hex(int *rgb_tab)
-{
-	int	r;
-	int	g;
-	int	b;
-
-	if (!rgb_tab)
-		return (err("Could not convert RGB to hex", 0));
-	r = rgb_tab[0] & 0xff;
-	g = rgb_tab[1] & 0xff;
-	b = rgb_tab[2] & 0xff;
-	return ((r << 16) | (g << 8) | b);
-}
-
-int	*convert_rgb(char **rgb_strings)
+int	*convert_rgb_to_int(char **rgb_strings)
 {
 	int	i;
 	int	*rgb;
@@ -109,5 +95,5 @@ int	*parse_rgb(char *line)
 	}
 	if (!check_rgb_strings(rgb_strings, count))
 		return (0);
-	return (convert_rgb(rgb_strings));
+	return (convert_rgb_to_int(rgb_strings));
 }

@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 00:56:17 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/21 22:35:34 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/22 17:35:20 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ void	render_frame(t_game *game)
 
 	init_image(&image);
 	image.img = mlx_new_image(game->mlx, game->win_width, game->win_height);
-	if (image.img == NULL)
+	if (!image.img)
 		clean_exit(game, err("Could not create image", 1));
 	image.addr = (int *)mlx_get_data_addr(image.img, &image.pixel_bits,
 			&image.size_line, &image.endian);
@@ -138,9 +138,9 @@ void	render_frame(t_game *game)
 		while (x < game->win_width)
 		{
 			if (y < game->win_height / 2)
-				image.addr[y * game->win_width + x] = game->texture.hex_ceiling;
+				image.addr[y * game->win_width + x] = game->hex_ceiling;
 			else
-				image.addr[y * game->win_width + x] = game->texture.hex_floor;
+				image.addr[y * game->win_width + x] = game->hex_floor;
 			x++;
 		}
 		y++;

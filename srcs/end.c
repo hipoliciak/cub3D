@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:58 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/21 18:59:05 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/22 17:48:51 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,32 +29,24 @@ void	free_tab(void **tab)
 	}
 }
 
-void	free_texture(t_tex *textures)
+void	free_texdata(t_texdata *texdata)
 {
-	if (textures->north)
-		free(textures->north);
-	if (textures->south)
-		free(textures->south);
-	if (textures->west)
-		free(textures->west);
-	if (textures->east)
-		free(textures->east);
-	if (textures->floor)
-		free(textures->floor);
-	if (textures->ceiling)
-		free(textures->ceiling);
+	if (texdata->north_path)
+		free(texdata->north_path);
+	if (texdata->south_path)
+		free(texdata->south_path);
+	if (texdata->west_path)
+		free(texdata->west_path);
+	if (texdata->east_path)
+		free(texdata->east_path);
+	if (texdata->rgb_floor)
+		free(texdata->rgb_floor);
+	if (texdata->rgb_ceiling)
+		free(texdata->rgb_ceiling);
 }
 
 int	free_game(t_game *game)
 {
-	if (game->textures)
-	{
-		free(game->textures[0]);
-		free(game->textures[1]);
-		free(game->textures[2]);
-		free(game->textures[3]);
-		free(game->textures);
-	}
 	if (game->map.fd > 0)
 		close(game->map.fd);
 	if (game->map.map)
@@ -62,7 +54,15 @@ int	free_game(t_game *game)
 		free_tab((void **)game->map.map);
 		game->map.map = NULL;
 	}
-	free_texture(&game->texture);
+	if (game->north_texture)
+		free(game->north_texture);
+	if (game->south_texture)
+		free(game->south_texture);
+	if (game->west_texture)
+		free(game->west_texture);
+	if (game->east_texture)
+		free(game->east_texture);
+	free_texdata(&game->texdata);
 	return (1);
 }
 

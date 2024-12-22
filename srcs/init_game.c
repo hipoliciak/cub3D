@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:08:15 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/21 21:56:39 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/22 17:30:14 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,21 @@ void	init_player(t_player *player)
 	player->key_state[5] = 0;
 }
 
-void	init_tex(t_tex *textures)
+void	init_texdata(t_texdata *texdata)
 {
-	textures->north = NULL;
-	textures->south = NULL;
-	textures->west = NULL;
-	textures->east = NULL;
-	textures->floor = 0;
-	textures->ceiling = 0;
-	textures->hex_floor = 0x0;
-	textures->hex_ceiling = 0x0;
-	textures->size = TEX_SIZE;
+	texdata->north_path = NULL;
+	texdata->south_path = NULL;
+	texdata->west_path = NULL;
+	texdata->east_path = NULL;
+	texdata->rgb_floor = 0;
+	texdata->rgb_ceiling = 0;
+	texdata->texture_width = TEX_WIDTH;
+	texdata->texture_height = TEX_HEIGHT;
 }
 
 void	init_map(t_map *map)
 {
 	map->fd = 0;
-	map->line_count = 0;
 	map->map = NULL;
 	map->height = 0;
 	map->width = 0;
@@ -68,9 +66,14 @@ void	init_game(t_game *game)
 	game->win = NULL;
 	game->win_height = WIN_HEIGHT;
 	game->win_width = WIN_WIDTH;
+	init_map(&game->map);
 	init_player(&game->player);
 	game->player_count = 0;
-	init_tex(&game->texture);
-	init_map(&game->map);
-	game->textures = NULL;
+	game->north_texture = NULL;
+	game->south_texture = NULL;
+	game->west_texture = NULL;
+	game->east_texture = NULL;
+	game->hex_floor = 0x0;
+	game->hex_ceiling = 0x0;
+	init_texdata(&game->texdata);
 }
