@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:39 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/22 18:24:21 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/23 23:18:21 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,14 +28,14 @@ int	*load_texture(t_game *game, char *path)
 	int		*buffer;
 
 	init_image(&tmp);
-	tmp.img = mlx_xpm_file_to_image(game->mlx, path,
+	tmp.img = mlx_xpm_file_to_image(game->mlx_ptr, path,
 			&game->texdata.texture_width, &game->texdata.texture_height);
 	if (!tmp.img)
 		clean_exit(game, err("Could not create image", 1));
 	tmp.addr = (int *)mlx_get_data_addr(tmp.img, &tmp.pixel_bits,
 			&tmp.size_line, &tmp.endian);
 	buffer = copy_texture_to_buffer(game, &tmp);
-	mlx_destroy_image(game->mlx, tmp.img);
+	mlx_destroy_image(game->mlx_ptr, tmp.img);
 	return (buffer);
 }
 

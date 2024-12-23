@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 19:05:32 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/21 23:27:35 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/23 22:59:12 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,6 @@ int	draw_map(t_game *game)
 		(int)game->player.pos_x, (int)game->player.pos_y);
 	printf("Player direction: %f, %f\n",
 		game->player.dir_x, game->player.dir_y);
-	printf("Player plane: %f, %f\n",
-		game->player.plane_x, game->player.plane_y);
 	printf("\n");
 	return (0);
 }

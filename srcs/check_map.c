@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:06:57 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/21 19:02:07 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/23 23:12:03 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	check_map(t_game *game)
 		return (err("Invalid player position", 1));
 	if (game->player.dir == '\0')
 		return (err("Player not initialized", 1));
-	if (game->player_count != 1)
+	if (game->player.player_count != 1)
 		return (err("Wrong number of players", 1));
 	return (0);
 }

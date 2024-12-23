@@ -6,28 +6,11 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:09:37 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/21 19:02:13 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/23 23:11:47 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-int	check_position_is_valid(t_game *game, char **map)
-{
-	int	i;
-	int	j;
-
-	i = (int)game->player.pos_y;
-	j = (int)game->player.pos_x;
-	if (ft_strlen(map[i - 1]) < (size_t)j
-		|| ft_strlen(map[i + 1]) < (size_t)j
-		|| ft_isspace(map[i][j - 1])
-		|| ft_isspace(map[i][j + 1])
-		|| ft_isspace(map[i - 1][j])
-		|| ft_isspace(map[i + 1][j]))
-		return (1);
-	return (0);
-}
 
 int	check_player_position(t_game *game, char **map)
 {
@@ -46,14 +29,12 @@ int	check_player_position(t_game *game, char **map)
 				game->player.pos_y = (double)i + 0.5;
 				game->player.dir = map[i][j];
 				map[i][j] = 'P';
-				game->player_count++;
+				game->player.player_count++;
 			}
 			j++;
 		}
 		i++;
 	}
-	if (check_position_is_valid(game, map))
-		return (1);
 	return (0);
 }
 

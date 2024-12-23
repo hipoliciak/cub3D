@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:58 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/22 17:48:51 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/23 23:17:57 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,19 +70,19 @@ void	clean_exit(t_game *game, int code)
 {
 	if (!game)
 		exit(code);
-	if (game->win && game->mlx)
-		mlx_destroy_window(game->mlx, game->win);
-	if (game->mlx)
+	if (game->win_ptr && game->mlx_ptr)
+		mlx_destroy_window(game->mlx_ptr, game->win_ptr);
+	if (game->mlx_ptr)
 	{
-		mlx_destroy_display(game->mlx);
-		mlx_loop_end(game->mlx);
-		free(game->mlx);
+		mlx_destroy_display(game->mlx_ptr);
+		mlx_loop_end(game->mlx_ptr);
+		free(game->mlx_ptr);
 	}
 	free_game(game);
 	exit(code);
 }
 
-int	quit_cub3d(t_game *game)
+int	end_game(t_game *game)
 {
 	clean_exit(game, 0);
 	return (0);

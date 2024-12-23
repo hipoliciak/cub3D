@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:45 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/22 17:49:17 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/23 23:17:27 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static int	key_press(int key, t_game *game)
 {
 	if (key == CLOSE_BTN || key == KEY_ESC || key == KEY_Q)
-		quit_cub3d(game);
+		end_game(game);
 	if (key == KEY_W)
 		game->player.key_state[0] = 1;
 	if (key == KEY_S)
@@ -35,7 +35,7 @@ static int	key_press(int key, t_game *game)
 static int	key_release(int key, t_game *game)
 {
 	if (key == CLOSE_BTN || key == KEY_ESC || key == KEY_Q)
-		quit_cub3d(game);
+		end_game(game);
 	if (key == KEY_W)
 		game->player.key_state[0] = 0;
 	if (key == KEY_S)
@@ -69,10 +69,6 @@ static int	parse_args(t_game *game, char **av)
 		init_player_east_west(&game->player);
 	printf("Player position: %f, %f\n", game->player.pos_x, game->player.pos_y);
 	printf("Player direction: %c\n", game->player.dir);
-	printf("Player direction: %f, %f\n",
-		game->player.dir_x, game->player.dir_y);
-	printf("Player plane: %f, %f\n",
-		game->player.plane_x, game->player.plane_y);
 	printf("Textures: %s, %s, %s, %s\n",
 		game->texdata.north_path, game->texdata.south_path,
 		game->texdata.west_path, game->texdata.east_path);
@@ -91,17 +87,17 @@ int	main(int ac, char **av)
 	init_game(&game);
 	if (parse_args(&game, av))
 		return (1);
-	game.mlx = mlx_init();
-	if (!game.mlx)
+	game.mlx_ptr = mlx_init();
+	if (!game.mlx_ptr)
 		clean_exit(&game, err("Could not initialize mlx", 1));
-	game.win = mlx_new_window(game.mlx, WIN_WIDTH, WIN_HEIGHT, "cub3d");
-	if (!game.win)
+	game.win_ptr = mlx_new_window(game.mlx_ptr, WIN_WIDTH, WIN_HEIGHT, "cub3d");
+	if (!game.win_ptr)
 		clean_exit(&game, err("Could not create window", 1));
 	create_textures(&game);
-	mlx_hook(game.win, KEY_PRESS, KEY_PRESS_MASK, key_press, &game);
-	mlx_hook(game.win, KEY_RELEASE, KEY_RELEASE_MASK, key_release, &game);
-	mlx_hook(game.win, CLOSE_BTN, NO_EVENT_MASK, quit_cub3d, &game);
-	mlx_loop_hook(game.mlx, render_game, &game);
-	mlx_loop(game.mlx);
+	mlx_hook(game.win_ptr, KEY_PRESS, KEY_PRESS_MASK, key_press, &game);
+	mlx_hook(game.win_ptr, KEY_RELEASE, KEY_RELEASE_MASK, key_release, &game);
+	mlx_hook(game.win_ptr, CLOSE_BTN, NO_EVENT_MASK, end_game, &game);
+	mlx_loop_hook(game.mlx_ptr, render_game, &game);
+	mlx_loop(game.mlx_ptr);
 	return (0);
 }
