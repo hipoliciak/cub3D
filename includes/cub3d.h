@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:06 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/23 23:20:18 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/23 23:26:06 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 # include <math.h>
 # include <stdio.h>
 
-// Constants
+// Macros
 # define WIN_WIDTH 1200
 # define WIN_HEIGHT 800
 # define TEX_WIDTH 64
@@ -29,6 +29,7 @@
 # define MOVESPEED 0.05
 # define ROTSPEED 0.02
 
+// Structs
 typedef struct s_image
 {
 	void		*img;
@@ -117,6 +118,20 @@ void			init_map(t_map *map);
 void			init_texdata(t_texdata *texdata);
 void			init_image(t_image *image);
 
+// Get game info
+int				read_file(t_game *game, char *path);
+void			fill_map(t_game *game);
+int				get_number_of_lines(char *path);
+int				parse_file(t_game *game);
+int				process_line_content(t_game *game, char **map, int i, int j);
+int				set_direction_textures(t_texdata *texdata, char *line, int j);
+char			*get_texture_path(char *line, int j);
+int				set_color_textures(t_texdata *texdata, char *line, int j);
+int				*parse_rgb(char *line);
+int				check_rgb_strings(char **rgb_strings, int count);
+int				rgb_str_digits(char *str);
+int				*convert_rgb_to_int(char **rgb_strings);
+
 // Check file
 int				is_cub_file(char *arg);
 int				check_texdata(t_game *game);
@@ -132,20 +147,6 @@ int				check_map_inside(char **map, int i, int j, int k);
 int				check_player_position(t_game *game, char **map);
 void			init_player_north_south(t_player *player);
 void			init_player_east_west(t_player *player);
-
-// Get game info
-int				read_file(t_game *game, char *path);
-void			fill_map(t_game *game);
-int				get_number_of_lines(char *path);
-int				parse_file(t_game *game);
-int				process_line_content(t_game *game, char **map, int i, int j);
-int				set_direction_textures(t_texdata *texdata, char *line, int j);
-char			*get_texture_path(char *line, int j);
-int				set_color_textures(t_texdata *texdata, char *line, int j);
-int				*parse_rgb(char *line);
-int				check_rgb_strings(char **rgb_strings, int count);
-int				rgb_str_digits(char *str);
-int				*convert_rgb_to_int(char **rgb_strings);
 
 // Graphics
 void			create_textures(t_game *game);
