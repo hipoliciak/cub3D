@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:06 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/26 23:43:57 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:48:02 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,9 @@
 # define MOVESPEED 0.05
 # define ROTSPEED 0.02
 # define MINIMAP_TILE_SIZE 10
-# define WALL_COLOR 0xFFFFFF
-# define FLOOR_COLOR 0x000000
-# define PLAYER_COLOR 0xFF0000
+# define MINIMAP_WALL_COLOR 0xFFFFFF
+# define MINIMAP_FLOOR_COLOR 0x000000
+# define MINIMAP_PLAYER_COLOR 0xFF0000
 
 // Structs
 typedef struct s_image

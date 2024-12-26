@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 13:12:58 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/26 23:29:48 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:48:09 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ void	draw_tile(t_game *game, int screen_x, int screen_y, int color)
 int	get_tile_color(char tile)
 {
 	if (tile == '1')
-		return (WALL_COLOR);
+		return (MINIMAP_WALL_COLOR);
 	else if (tile == '0')
-		return (FLOOR_COLOR);
+		return (MINIMAP_FLOOR_COLOR);
 	else if (tile == 'P')
-		return (PLAYER_COLOR);
+		return (MINIMAP_PLAYER_COLOR);
 	return (-1);
 }
 
