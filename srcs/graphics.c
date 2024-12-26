@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:39 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/23 23:18:21 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/26 22:58:32 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	create_textures(t_game *game)
 {
-	game->north_texture = load_texture(game, game->texdata.north_path);
-	game->south_texture = load_texture(game, game->texdata.south_path);
-	game->west_texture = load_texture(game, game->texdata.west_path);
-	game->east_texture = load_texture(game, game->texdata.east_path);
-	game->hex_ceiling = convert_rgb_to_hex(game->texdata.rgb_ceiling);
-	game->hex_floor = convert_rgb_to_hex(game->texdata.rgb_floor);
+	game->north_texture = load_texture(game, game->map.north_path);
+	game->south_texture = load_texture(game, game->map.south_path);
+	game->west_texture = load_texture(game, game->map.west_path);
+	game->east_texture = load_texture(game, game->map.east_path);
+	game->hex_ceiling = convert_rgb_to_hex(game->map.rgb_ceiling);
+	game->hex_floor = convert_rgb_to_hex(game->map.rgb_floor);
 }
 
 int	*load_texture(t_game *game, char *path)
@@ -29,7 +29,7 @@ int	*load_texture(t_game *game, char *path)
 
 	init_image(&tmp);
 	tmp.img = mlx_xpm_file_to_image(game->mlx_ptr, path,
-			&game->texdata.texture_width, &game->texdata.texture_height);
+			&game->texture_width, &game->texture_height);
 	if (!tmp.img)
 		clean_exit(game, err("Could not create image", 1));
 	tmp.addr = (int *)mlx_get_data_addr(tmp.img, &tmp.pixel_bits,
@@ -47,8 +47,8 @@ int	*copy_texture_to_buffer(t_game *game, t_image *img)
 	int		width;
 	int		height;
 
-	width = game->texdata.texture_width;
-	height = game->texdata.texture_height;
+	width = game->texture_width;
+	height = game->texture_height;
 	buffer = malloc(sizeof(int) * width * height);
 	if (!buffer)
 		clean_exit(game, err("Could not allocate memory", 1));

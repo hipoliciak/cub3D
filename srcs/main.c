@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:45 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/23 23:17:27 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/26 22:56:08 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ static int	parse_args(t_game *game, char **av)
 	printf("Player position: %f, %f\n", game->player.pos_x, game->player.pos_y);
 	printf("Player direction: %c\n", game->player.dir);
 	printf("Textures: %s, %s, %s, %s\n",
-		game->texdata.north_path, game->texdata.south_path,
-		game->texdata.west_path, game->texdata.east_path);
+		game->map.north_path, game->map.south_path,
+		game->map.west_path, game->map.east_path);
 	printf("Floor color: %lu\n", game->hex_floor);
 	printf("Ceiling color: %lu\n", game->hex_ceiling);
 	draw_map(game);

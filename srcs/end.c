@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:58 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/23 23:17:57 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/26 22:59:36 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,31 +29,30 @@ void	free_tab(void **tab)
 	}
 }
 
-void	free_texdata(t_texdata *texdata)
+void	free_textures_info(t_map *map)
 {
-	if (texdata->north_path)
-		free(texdata->north_path);
-	if (texdata->south_path)
-		free(texdata->south_path);
-	if (texdata->west_path)
-		free(texdata->west_path);
-	if (texdata->east_path)
-		free(texdata->east_path);
-	if (texdata->rgb_floor)
-		free(texdata->rgb_floor);
-	if (texdata->rgb_ceiling)
-		free(texdata->rgb_ceiling);
+	if (map->north_path)
+		free(map->north_path);
+	if (map->south_path)
+		free(map->south_path);
+	if (map->west_path)
+		free(map->west_path);
+	if (map->east_path)
+		free(map->east_path);
+	if (map->rgb_floor)
+		free(map->rgb_floor);
+	if (map->rgb_ceiling)
+		free(map->rgb_ceiling);
 }
 
 int	free_game(t_game *game)
 {
-	if (game->map.fd > 0)
-		close(game->map.fd);
 	if (game->map.map)
 	{
 		free_tab((void **)game->map.map);
 		game->map.map = NULL;
 	}
+	free_textures_info(&game->map);
 	if (game->north_texture)
 		free(game->north_texture);
 	if (game->south_texture)
@@ -62,7 +61,6 @@ int	free_game(t_game *game)
 		free(game->west_texture);
 	if (game->east_texture)
 		free(game->east_texture);
-	free_texdata(&game->texdata);
 	return (1);
 }
 

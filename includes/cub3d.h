@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:06 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/23 23:26:06 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:20:13 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@
 # define TEX_HEIGHT 64
 # define MOVESPEED 0.05
 # define ROTSPEED 0.02
+# define MINIMAP_TILE_SIZE 10
+# define WALL_COLOR 0xFFFFFF
+# define FLOOR_COLOR 0x000000
+# define PLAYER_COLOR 0xFF0000
 
 // Structs
 typedef struct s_image
@@ -39,25 +43,18 @@ typedef struct s_image
 	int			endian;
 }	t_image;
 
-typedef struct s_texdata
+typedef struct s_map
 {
+	char		**map;
+	int			player_count;
 	char		*north_path;
 	char		*south_path;
 	char		*west_path;
 	char		*east_path;
 	int			*rgb_floor;
 	int			*rgb_ceiling;
-	int			texture_width;
-	int			texture_height;
-}	t_texdata;
-
-typedef struct s_map
-{
-	int			fd;
-	char		**map;
 	int			start_of_map;
 	int			end_of_map;
-	int			height;
 }	t_map;
 
 typedef struct s_ray
@@ -83,7 +80,6 @@ typedef struct s_ray
 typedef struct s_player
 {
 	char		dir;
-	int			player_count;
 	double		dir_x;
 	double		dir_y;
 	double		pos_x;
@@ -101,32 +97,32 @@ typedef struct s_game
 	int				win_height;
 	t_map			map;
 	t_player		player;
+	int				texture_width;
+	int				texture_height;
 	int				*north_texture;
 	int				*south_texture;
 	int				*west_texture;
 	int				*east_texture;
 	unsigned long	hex_floor;
 	unsigned long	hex_ceiling;
-	t_texdata		texdata;
-	t_image			image;
+	t_image			labirynth;
 }	t_game;
 
 // Init
 void			init_game(t_game *game);
 void			init_player(t_player *player);
 void			init_map(t_map *map);
-void			init_texdata(t_texdata *texdata);
 void			init_image(t_image *image);
 
 // Get game info
 int				read_file(t_game *game, char *path);
-void			fill_map(t_game *game);
+int				fill_map(t_game *game, int fd);
 int				get_number_of_lines(char *path);
 int				parse_file(t_game *game);
 int				process_line_content(t_game *game, char **map, int i, int j);
-int				set_direction_textures(t_texdata *texdata, char *line, int j);
+int				set_direction_textures(t_map *map, char *line, int j);
 char			*get_texture_path(char *line, int j);
-int				set_color_textures(t_texdata *texdata, char *line, int j);
+int				set_color_textures(t_map *map, char *line, int j);
 int				*parse_rgb(char *line);
 int				check_rgb_strings(char **rgb_strings, int count);
 int				rgb_str_digits(char *str);
@@ -170,19 +166,21 @@ void			calculate_ray_direction(t_game *game, t_ray *ray, int x);
 void			calculate_step_and_side_dist(t_game *game, t_ray *ray);
 void			perform_dda(t_game *game, t_ray *ray);
 void			calculate_wall_and_tex(t_game *game, t_ray *ray, int *tex_x);
+void			render_minimap(t_game *game);
+void			draw_tile(t_game *game, int screen_x, int screen_y, int color);
+int				get_tile_color(char tile);
 
 // Utils
 int				count_map_lines(t_game *game, int map_start);
 int				err(char *str, int code);
-int				ft_isspace(int c);
-int				ft_isspace_not_nl(int c);
+int				is_space(int c);
 int				is_surrounded_by_space_or_wall(char **map, int i, int j);
 
 // End
 void			clean_exit(t_game *game, int code);
 int				end_game(t_game *game);
 void			free_tab(void **tab);
-void			free_texdata(t_texdata *texdata);
+void			free_textures_info(t_map *map);
 int				free_game(t_game *game);
 
 // Debug

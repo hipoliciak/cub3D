@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 22:17:46 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/23 23:18:42 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/26 14:12:41 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	render_column(t_game *game, int x, t_ray ray, int tex_x)
 			color = game->west_texture[tex_y * TEX_WIDTH + tex_x];
 		else
 			color = game->east_texture[tex_y * TEX_WIDTH + tex_x];
-		game->image.addr[y * game->win_width + x] = color;
+		game->labirynth.addr[y * game->win_width + x] = color;
 		y++;
 	}
 }
@@ -92,10 +92,12 @@ void	render_frame(t_game *game)
 	image.addr = (int *)mlx_get_data_addr(image.img, &image.pixel_bits,
 			&image.size_line, &image.endian);
 	fill_ceiling_and_floor(game, &image);
-	game->image = image;
+	game->labirynth = image;
 	render_walls(game);
-	mlx_put_image_to_window(game->mlx_ptr, game->win_ptr, image.img, 0, 0);
-	mlx_destroy_image(game->mlx_ptr, image.img);
+	render_minimap(game);
+	mlx_put_image_to_window(game->mlx_ptr, game->win_ptr,
+		game->labirynth.img, 0, 0);
+	mlx_destroy_image(game->mlx_ptr, game->labirynth.img);
 }
 
 int	render_game(t_game *game)

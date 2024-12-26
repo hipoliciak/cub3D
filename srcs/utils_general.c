@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_general.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:09:31 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/21 19:05:49 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:21:39 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,7 @@ int	err(char *str, int code)
 	return (code);
 }
 
-int	ft_isspace(int c)
-{
-	if (c == ' ' || c == '\t' || c == '\r'
-		|| c == '\n' || c == '\v' || c == '\f')
-		return (1);
-	return (0);
-}
-
-int	ft_isspace_not_nl(int c)
+int	is_space(int c)
 {
 	if (c == ' ' || c == '\t' || c == '\r'
 		|| c == '\v' || c == '\f')
@@ -45,7 +37,7 @@ int	count_map_lines(t_game *game, int map_start)
 	while (game->map.map[i])
 	{
 		j = 0;
-		while (ft_isspace_not_nl(game->map.map[i][j]))
+		while (is_space(game->map.map[i][j]))
 			j++;
 		if (game->map.map[i][j] == '1')
 			i++;
@@ -53,7 +45,6 @@ int	count_map_lines(t_game *game, int map_start)
 			return (err("There is something after the map", 1));
 	}
 	game->map.end_of_map = i - 1;
-	game->map.height = i - game->map.start_of_map;
 	return (0);
 }
 

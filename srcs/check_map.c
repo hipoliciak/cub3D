@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:06:57 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/23 23:12:03 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:22:25 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	check_map_inside(char **map, int i, int j, int k)
 {
-	while (ft_isspace_not_nl(map[i][k]))
+	while (map[i][k] && is_space(map[i][k]))
 		k++;
 	while (map[i][k] && k < j)
 	{
@@ -28,7 +28,7 @@ int	check_map_inside(char **map, int i, int j, int k)
 		}
 		if (map[i][k - 1] != '1')
 			return (1);
-		while (map[i][k] && ft_isspace_not_nl(map[i][k]))
+		while (map[i][k] && is_space(map[i][k]))
 		{
 			if (is_surrounded_by_space_or_wall(map, i, k))
 				return (1);
@@ -40,7 +40,7 @@ int	check_map_inside(char **map, int i, int j, int k)
 
 int	check_map_top_bottom(char **map, int i, int j)
 {
-	while (ft_isspace_not_nl(map[i][j]))
+	while (is_space(map[i][j]))
 		j++;
 	while (map[i][j])
 	{
@@ -86,13 +86,13 @@ int	check_map(t_game *game)
 		return (err("Invalid map borders", 1));
 	if (check_map_content(&game->map) == 2)
 		return (err("Invalid map elements", 1));
-	if (game->map.height < 3)
+	if ((game->map.end_of_map - game->map.start_of_map) < 3)
 		return (err("Map too small", 1));
 	if (check_player_position(game, game->map.map))
 		return (err("Invalid player position", 1));
 	if (game->player.dir == '\0')
 		return (err("Player not initialized", 1));
-	if (game->player.player_count != 1)
+	if (game->map.player_count != 1)
 		return (err("Wrong number of players", 1));
 	return (0);
 }

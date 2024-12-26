@@ -6,7 +6,7 @@
 #    By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/30 23:20:11 by dmodrzej          #+#    #+#              #
-#    Updated: 2024/12/23 22:30:42 by dmodrzej         ###   ########.fr        #
+#    Updated: 2024/12/26 13:26:36 by dmodrzej         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ FLAGS	=	-g -Wall -Wextra -Werror
 # sources
 SRC_DIR =	srcs/
 SRC		=	main.c init_game.c check_input.c read_file.c parse_file.c check_map.c \
-			init_player.c graphics.c engine.c render.c end.c \
+			init_player.c graphics.c engine.c render.c minimap.c end.c \
 			utils_general.c utils_colors.c utils_render.c debug.c
 SRCS	=	$(addprefix $(SRC_DIR), $(SRC))
 
