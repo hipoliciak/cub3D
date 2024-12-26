@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:08:15 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/26 23:04:16 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:44:09 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,5 @@ void	init_game(t_game *game)
 	game->east_texture = NULL;
 	game->hex_floor = 0x0;
 	game->hex_ceiling = 0x0;
-	init_image(&game->labirynth);
+	init_image(&game->frame);
 }

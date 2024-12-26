@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 13:12:58 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/26 21:47:36 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:29:48 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	draw_tile(t_game *game, int screen_x, int screen_y, int color)
 			pixel_y = screen_y + dy;
 			if (pixel_x >= 0 && pixel_x < game->win_width
 				&& pixel_y >= 0 && pixel_y < game->win_height)
-				game->labirynth.addr[pixel_y * game->win_width + pixel_x]
+				game->frame.addr[pixel_y * game->win_width + pixel_x]
 					= color;
 			dx++;
 		}

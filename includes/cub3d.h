@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:06 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/26 23:20:13 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:43:57 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ typedef struct s_game
 	int				*east_texture;
 	unsigned long	hex_floor;
 	unsigned long	hex_ceiling;
-	t_image			labirynth;
+	t_image			frame;
 }	t_game;
 
 // Init
@@ -158,7 +158,8 @@ void			rotate_player(t_player *p, double angle);
 // Render
 int				render_game(t_game *game);
 void			render_frame(t_game *game);
-void			fill_ceiling_and_floor(t_game *game, t_image *image);
+// void			fill_ceiling_and_floor(t_game *game, t_image *image);
+void			fill_ceiling_and_floor(t_game *game);
 void			render_walls(t_game *game);
 void			render_column(t_game *game, int x, t_ray ray, int tex_x);
 void			init_ray(t_game *game, t_ray *ray);

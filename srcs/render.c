@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 22:17:46 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/26 14:12:41 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/26 23:44:47 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	render_column(t_game *game, int x, t_ray ray, int tex_x)
 			color = game->west_texture[tex_y * TEX_WIDTH + tex_x];
 		else
 			color = game->east_texture[tex_y * TEX_WIDTH + tex_x];
-		game->labirynth.addr[y * game->win_width + x] = color;
+		game->frame.addr[y * game->win_width + x] = color;
 		y++;
 	}
 }
@@ -60,7 +60,7 @@ void	render_walls(t_game *game)
 	}
 }
 
-void	fill_ceiling_and_floor(t_game *game, t_image *image)
+void	fill_ceiling_and_floor(t_game *game)
 {
 	int		x;
 	int		y;
@@ -72,9 +72,9 @@ void	fill_ceiling_and_floor(t_game *game, t_image *image)
 		while (x < game->win_width)
 		{
 			if (y < game->win_height / 2)
-				image->addr[y * game->win_width + x] = game->hex_ceiling;
+				game->frame.addr[y * game->win_width + x] = game->hex_ceiling;
 			else
-				image->addr[y * game->win_width + x] = game->hex_floor;
+				game->frame.addr[y * game->win_width + x] = game->hex_floor;
 			x++;
 		}
 		y++;
@@ -83,21 +83,20 @@ void	fill_ceiling_and_floor(t_game *game, t_image *image)
 
 void	render_frame(t_game *game)
 {
-	t_image	image;
-
-	init_image(&image);
-	image.img = mlx_new_image(game->mlx_ptr, game->win_width, game->win_height);
-	if (!image.img)
+	init_image(&game->frame);
+	game->frame.img = mlx_new_image(game->mlx_ptr,
+			game->win_width, game->win_height);
+	if (!game->frame.img)
 		clean_exit(game, err("Could not create image", 1));
-	image.addr = (int *)mlx_get_data_addr(image.img, &image.pixel_bits,
-			&image.size_line, &image.endian);
-	fill_ceiling_and_floor(game, &image);
-	game->labirynth = image;
+	game->frame.addr = (int *)mlx_get_data_addr(game->frame.img,
+			&game->frame.pixel_bits, &game->frame.size_line,
+			&game->frame.endian);
+	fill_ceiling_and_floor(game);
 	render_walls(game);
 	render_minimap(game);
 	mlx_put_image_to_window(game->mlx_ptr, game->win_ptr,
-		game->labirynth.img, 0, 0);
-	mlx_destroy_image(game->mlx_ptr, game->labirynth.img);
+		game->frame.img, 0, 0);
+	mlx_destroy_image(game->mlx_ptr, game->frame.img);
 }
 
 int	render_game(t_game *game)
