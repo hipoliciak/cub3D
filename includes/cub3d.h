@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:06 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/26 23:48:02 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/27 00:20:17 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ int				is_xpm_file(char *arg);
 
 // Check map
 int				check_map(t_game *game);
+int				check_map_end(t_game *game);
 int				check_map_content(t_map *map);
 int				check_map_top_bottom(char **map, int i, int j);
 int				check_map_inside(char **map, int i, int j, int k);
@@ -158,7 +159,6 @@ void			rotate_player(t_player *p, double angle);
 // Render
 int				render_game(t_game *game);
 void			render_frame(t_game *game);
-// void			fill_ceiling_and_floor(t_game *game, t_image *image);
 void			fill_ceiling_and_floor(t_game *game);
 void			render_walls(t_game *game);
 void			render_column(t_game *game, int x, t_ray ray, int tex_x);
@@ -172,7 +172,6 @@ void			draw_tile(t_game *game, int screen_x, int screen_y, int color);
 int				get_tile_color(char tile);
 
 // Utils
-int				count_map_lines(t_game *game, int map_start);
 int				err(char *str, int code);
 int				is_space(int c);
 int				is_surrounded_by_space_or_wall(char **map, int i, int j);

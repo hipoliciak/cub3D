@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:09:31 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/26 23:21:39 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/27 00:13:18 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,27 +24,6 @@ int	is_space(int c)
 	if (c == ' ' || c == '\t' || c == '\r'
 		|| c == '\v' || c == '\f')
 		return (1);
-	return (0);
-}
-
-int	count_map_lines(t_game *game, int map_start)
-{
-	int	i;
-	int	j;
-
-	game->map.start_of_map = map_start;
-	i = map_start;
-	while (game->map.map[i])
-	{
-		j = 0;
-		while (is_space(game->map.map[i][j]))
-			j++;
-		if (game->map.map[i][j] == '1')
-			i++;
-		else
-			return (err("There is something after the map", 1));
-	}
-	game->map.end_of_map = i - 1;
 	return (0);
 }
 

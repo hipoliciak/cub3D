@@ -6,11 +6,31 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:06:57 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/26 23:22:25 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/27 01:24:44 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+int	check_map_end(t_game *game)
+{
+	int	i;
+	int	j;
+
+	i = game->map.start_of_map;
+	while (game->map.map[i])
+	{
+		j = 0;
+		while (is_space(game->map.map[i][j]))
+			j++;
+		if (game->map.map[i][j] == '1')
+			i++;
+		else
+			return (1);
+	}
+	game->map.end_of_map = i - 1;
+	return (0);
+}
 
 int	check_map_inside(char **map, int i, int j, int k)
 {
@@ -82,12 +102,14 @@ int	check_map(t_game *game)
 {
 	if (game->map.start_of_map == 0)
 		return (err("Map not found", 1));
+	if (check_map_end(game))
+		return (err("There is something after the map", 1));
+	if ((game->map.end_of_map - game->map.start_of_map) < 2)
+		return (err("Map too small", 1));
 	if (check_map_content(&game->map) == 1)
 		return (err("Invalid map borders", 1));
 	if (check_map_content(&game->map) == 2)
 		return (err("Invalid map elements", 1));
-	if ((game->map.end_of_map - game->map.start_of_map) < 3)
-		return (err("Map too small", 1));
 	if (check_player_position(game, game->map.map))
 		return (err("Invalid player position", 1));
 	if (game->player.dir == '\0')

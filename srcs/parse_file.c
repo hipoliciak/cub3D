@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:08:09 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/26 23:21:24 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/27 01:26:34 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,21 +67,21 @@ int	set_direction_textures(t_map *map, char *line, int j)
 int	set_color_textures(t_map *map, char *line, int j)
 {
 	if (line[j + 1] && ft_isprint(line[j + 1]) && !is_space(line[j + 1]))
-		return (2);
+		return (1);
 	if (!map->rgb_ceiling && line[j] == 'C')
 	{
 		map->rgb_ceiling = parse_rgb(line + j + 1);
 		if (!map->rgb_ceiling)
-			return (2);
+			return (1);
 	}
 	else if (!map->rgb_floor && line[j] == 'F')
 	{
 		map->rgb_floor = parse_rgb(line + j + 1);
 		if (!map->rgb_floor)
-			return (2);
+			return (1);
 	}
 	else
-		return (2);
+		return (1);
 	return (0);
 }
 
@@ -95,23 +95,21 @@ int	process_line_content(t_game *game, char **map, int i, int j)
 			&& !is_space(map[i][j + 1]) && !ft_isdigit(map[i][j + 1]))
 		{
 			if (set_direction_textures(&game->map, map[i], j))
-				return (err("Invalid texture", 2));
+				return (err("Invalid texture", 1));
 			return (-1);
 		}
 		else
 		{
 			if (set_color_textures(&game->map, map[i], j))
-				return (err("Invalid RGB color", 2));
+				return (err("Invalid RGB color", 1));
 			return (-1);
 		}
 	}
-	else if (ft_isdigit(map[i][j]))
-	{
-		if (count_map_lines(game, i))
-			return (2);
-		return (0);
-	}
-	return (1);
+	else if (ft_isdigit(map[i][j]) && map[i][j] == '1')
+		game->map.start_of_map = i;
+	else
+		return (err("Invalid map", 1));
+	return (0);
 }
 
 int	parse_file(t_game *game)
@@ -129,9 +127,9 @@ int	parse_file(t_game *game)
 			ret = process_line_content(game, game->map.map, i, j);
 			if (ret == -1)
 				break ;
-			else if (ret == 2)
+			else if (ret == 1)
 				return (1);
-			else if (ret != 1)
+			else
 				return (ret);
 			j++;
 		}
