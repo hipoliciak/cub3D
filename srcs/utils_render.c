@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/23 22:26:14 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/23 22:32:12 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/27 17:07:33 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ void	calculate_step_and_side_dist(t_game *game, t_ray *ray)
 
 void	perform_dda(t_game *game, t_ray *ray)
 {
-	while (game->map.map[ray->map_y][ray->map_x] == '0'
-		|| game->map.map[ray->map_y][ray->map_x] == 'P')
+	while (game->file.map[ray->map_y][ray->map_x] == '0'
+		|| game->file.map[ray->map_y][ray->map_x] == 'P')
 	{
 		if (ray->side_dist_x < ray->side_dist_y)
 		{

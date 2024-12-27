@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/26 13:12:58 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/26 23:48:09 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/27 17:06:52 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,15 +56,15 @@ void	render_minimap(t_game *game)
 	int	screen_y;
 	int	color;
 
-	y = game->map.start_of_map;
-	while (y <= game->map.end_of_map)
+	y = 0;
+	while (game->file.map[y])
 	{
 		x = 0;
-		while (game->map.map[y][x] != '\0')
+		while (game->file.map[y][x] != '\0')
 		{
 			screen_x = x * MINIMAP_TILE_SIZE + MINIMAP_TILE_SIZE;
-			screen_y = (y - game->map.start_of_map + 1) * MINIMAP_TILE_SIZE;
-			color = get_tile_color(game->map.map[y][x]);
+			screen_y = (y + 1) * MINIMAP_TILE_SIZE;
+			color = get_tile_color(game->file.map[y][x]);
 			if (color == -1)
 			{
 				x++;

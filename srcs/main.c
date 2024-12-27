@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:45 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/27 01:29:36 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/27 21:25:59 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,8 @@ static int	key_release(int key, t_game *game)
 
 static int	parse_args(t_game *game, char **av)
 {
-	if (is_cub_file(av[1]))
-		return (err("Not a .cub file", 1));
-	if (read_file(game, av[1]))
-		return (err("Could not read file", 1));
+	if (copy_file(game, av[1]))
+		return (1);
 	if (parse_file(game))
 		return (free_game(game));
 	if (check_map(game))
@@ -67,13 +65,6 @@ static int	parse_args(t_game *game, char **av)
 		init_player_north_south(&game->player);
 	else
 		init_player_east_west(&game->player);
-	printf("Player position: %f, %f\n", game->player.pos_x, game->player.pos_y);
-	printf("Player direction: %c\n", game->player.dir);
-	printf("Textures: %s, %s, %s, %s\n",
-		game->map.north_path, game->map.south_path,
-		game->map.west_path, game->map.east_path);
-	printf("Floor color: %lu\n", game->hex_floor);
-	printf("Ceiling color: %lu\n", game->hex_ceiling);
 	draw_map(game);
 	return (0);
 }

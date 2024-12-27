@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:08:09 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/27 01:26:34 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/27 23:33:47 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,100 +40,90 @@ char	*get_texture_path(char *line, int j)
 	return (path);
 }
 
-int	set_direction_textures(t_map *map, char *line, int j)
+int	set_direction_textures(t_file *file, char *line, int i)
 {
 	char	*identifier;
 
-	identifier = ft_substr(line, j, 2);
+	identifier = ft_substr(line, i, 2);
 	if (!identifier)
-		return (1);
-	if (!ft_strncmp(identifier, "NO", 2) && !map->north_path)
-		map->north_path = get_texture_path(line, j + 2);
-	else if (!ft_strncmp(identifier, "SO", 2) && !map->south_path)
-		map->south_path = get_texture_path(line, j + 2);
-	else if (!ft_strncmp(identifier, "WE", 2) && !map->west_path)
-		map->west_path = get_texture_path(line, j + 2);
-	else if (!ft_strncmp(identifier, "EA", 2) && !map->east_path)
-		map->east_path = get_texture_path(line, j + 2);
+		return (err("Malloc failed", 1));
+	if (!ft_strncmp(identifier, "NO", 2) && !file->north_path)
+		file->north_path = get_texture_path(line, i + 2);
+	else if (!ft_strncmp(identifier, "SO", 2) && !file->south_path)
+		file->south_path = get_texture_path(line, i + 2);
+	else if (!ft_strncmp(identifier, "WE", 2) && !file->west_path)
+		file->west_path = get_texture_path(line, i + 2);
+	else if (!ft_strncmp(identifier, "EA", 2) && !file->east_path)
+		file->east_path = get_texture_path(line, i + 2);
 	else
 	{
 		free(identifier);
-		return (1);
+		return (err("Invalid texture", 1));
 	}
 	free(identifier);
 	return (0);
 }
 
-int	set_color_textures(t_map *map, char *line, int j)
+int	set_color_textures(t_file *file, char *line, int i)
 {
-	if (line[j + 1] && ft_isprint(line[j + 1]) && !is_space(line[j + 1]))
-		return (1);
-	if (!map->rgb_ceiling && line[j] == 'C')
+	if (!file->rgb_ceiling && line[i] == 'C')
 	{
-		map->rgb_ceiling = parse_rgb(line + j + 1);
-		if (!map->rgb_ceiling)
-			return (1);
+		file->rgb_ceiling = parse_rgb(line + i + 1);
+		if (!file->rgb_ceiling)
+			return (err("Invalid RGB ceiling color", 1));
 	}
-	else if (!map->rgb_floor && line[j] == 'F')
+	else if (!file->rgb_floor && line[i] == 'F')
 	{
-		map->rgb_floor = parse_rgb(line + j + 1);
-		if (!map->rgb_floor)
-			return (1);
+		file->rgb_floor = parse_rgb(line + i + 1);
+		if (!file->rgb_floor)
+			return (err("Invalid RGB floor color", 1));
 	}
 	else
-		return (1);
+		return (err("Invalid RGB color", 1));
 	return (0);
 }
 
-int	process_line_content(t_game *game, char **map, int i, int j)
+int	parse_line(t_game *game, char *line, int map_line_index)
 {
-	while (map[i][j] && (is_space(map[i][j]) || map[i][j] == '\n'))
-		j++;
-	if (ft_isprint(map[i][j]) && !is_space(map[i][j]) && !ft_isdigit(map[i][j]))
+	int	i;
+
+	i = 0;
+	if (!line)
+		return (0);
+	while (line[i] && (is_space(line[i]) || line[i] == '\n'))
+		i++;
+	if (!line[i] || line[i] == '\n')
+		return (0);
+	if (ft_strchr("NSWEFC", line[i]))
 	{
-		if (map[i][j + 1] && ft_isprint(map[i][j + 1])
-			&& !is_space(map[i][j + 1]) && !ft_isdigit(map[i][j + 1]))
-		{
-			if (set_direction_textures(&game->map, map[i], j))
-				return (err("Invalid texture", 1));
-			return (-1);
-		}
-		else
-		{
-			if (set_color_textures(&game->map, map[i], j))
-				return (err("Invalid RGB color", 1));
-			return (-1);
-		}
+		if (line[i + 1] && ft_strchr("OEA", line[i + 1]))
+			return (set_direction_textures(&game->file, line, i));
+		else if (line[i + 1] && is_space(line[i + 1]))
+			return (set_color_textures(&game->file, line, i));
 	}
-	else if (ft_isdigit(map[i][j]) && map[i][j] == '1')
-		game->map.start_of_map = i;
-	else
-		return (err("Invalid map", 1));
+	else if (line[i] && line[i] == '1' && !game->file.map_start)
+		game->file.map_start = map_line_index;
+	else if (line[i] && line[i] != '1' && game->file.map_start)
+		return (err("Invalid map line", 1));
 	return (0);
 }
 
 int	parse_file(t_game *game)
 {
 	int	i;
-	int	j;
 	int	ret;
 
 	i = 0;
-	while (game->map.map[i])
+	while (game->file.file[i])
 	{
-		j = 0;
-		while (game->map.map[i][j])
-		{
-			ret = process_line_content(game, game->map.map, i, j);
-			if (ret == -1)
-				break ;
-			else if (ret == 1)
-				return (1);
-			else
-				return (ret);
-			j++;
-		}
+		ret = parse_line(game, game->file.file[i], i);
+		if (ret)
+			return (ret);
 		i++;
 	}
+	if (!game->file.map_start)
+		return (err("No map", 1));
+	if (copy_map(game))
+		return (1);
 	return (0);
 }

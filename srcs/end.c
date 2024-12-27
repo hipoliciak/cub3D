@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:58 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/26 22:59:36 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/27 15:44:16 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,30 +29,35 @@ void	free_tab(void **tab)
 	}
 }
 
-void	free_textures_info(t_map *map)
+void	free_textures_info(t_file *file)
 {
-	if (map->north_path)
-		free(map->north_path);
-	if (map->south_path)
-		free(map->south_path);
-	if (map->west_path)
-		free(map->west_path);
-	if (map->east_path)
-		free(map->east_path);
-	if (map->rgb_floor)
-		free(map->rgb_floor);
-	if (map->rgb_ceiling)
-		free(map->rgb_ceiling);
+	if (file->north_path)
+		free(file->north_path);
+	if (file->south_path)
+		free(file->south_path);
+	if (file->west_path)
+		free(file->west_path);
+	if (file->east_path)
+		free(file->east_path);
+	if (file->rgb_floor)
+		free(file->rgb_floor);
+	if (file->rgb_ceiling)
+		free(file->rgb_ceiling);
 }
 
 int	free_game(t_game *game)
 {
-	if (game->map.map)
+	if (game->file.file)
 	{
-		free_tab((void **)game->map.map);
-		game->map.map = NULL;
+		free_tab((void **)game->file.file);
+		game->file.file = NULL;
 	}
-	free_textures_info(&game->map);
+	if (game->file.map)
+	{
+		free_tab((void **)game->file.map);
+		game->file.map = NULL;
+	}
+	free_textures_info(&game->file);
 	if (game->north_texture)
 		free(game->north_texture);
 	if (game->south_texture)

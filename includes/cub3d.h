@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:06 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/27 01:30:00 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/27 23:23:08 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,9 +43,12 @@ typedef struct s_image
 	int			endian;
 }	t_image;
 
-typedef struct s_map
+typedef struct s_file
 {
+	char		**file;
 	char		**map;
+	int			map_start;
+	int			map_height;
 	int			player_count;
 	char		*north_path;
 	char		*south_path;
@@ -53,9 +56,7 @@ typedef struct s_map
 	char		*east_path;
 	int			*rgb_floor;
 	int			*rgb_ceiling;
-	int			start_of_map;
-	int			end_of_map;
-}	t_map;
+}	t_file;
 
 typedef struct s_ray
 {
@@ -95,7 +96,7 @@ typedef struct s_game
 	void			*win_ptr;
 	int				win_width;
 	int				win_height;
-	t_map			map;
+	t_file			file;
 	t_player		player;
 	int				texture_width;
 	int				texture_height;
@@ -111,22 +112,24 @@ typedef struct s_game
 // Init
 void			init_game(t_game *game);
 void			init_player(t_player *player);
-void			init_map(t_map *map);
+void			init_file(t_file *file);
 void			init_image(t_image *image);
 
 // Get game info
-int				read_file(t_game *game, char *path);
-int				fill_map(t_game *game, int fd);
+int				copy_file(t_game *game, char *path);
+int				fill_file(t_game *game, int fd);
 int				get_number_of_lines(char *path);
 int				parse_file(t_game *game);
-int				process_line_content(t_game *game, char **map, int i, int j);
-int				set_direction_textures(t_map *map, char *line, int j);
+int				parse_line(t_game *game, char *line, int i);
+int				set_direction_textures(t_file *file, char *line, int j);
 char			*get_texture_path(char *line, int j);
-int				set_color_textures(t_map *map, char *line, int j);
+int				set_color_textures(t_file *file, char *line, int j);
 int				*parse_rgb(char *line);
 int				check_rgb_strings(char **rgb_strings, int count);
 int				rgb_str_digits(char *str);
 int				*convert_rgb_to_int(char **rgb_strings);
+int				copy_map(t_game *game);
+int				count_map_lines(char **file, int map_start);
 
 // Check file
 int				is_cub_file(char *arg);
@@ -135,8 +138,8 @@ int				is_xpm_file(char *arg);
 
 // Check map
 int				check_map(t_game *game);
-int				check_map_end(t_game *game);
-int				check_map_content(t_map *map);
+int				check_map_end(char **map, int map_length);
+int				check_map_content(char **map);
 int				check_map_top_bottom(char **map, int i, int j);
 int				check_map_inside(char **map, int i, int j, int k);
 
@@ -180,7 +183,7 @@ int				is_surrounded_by_space_or_wall(char **map, int i, int j);
 void			clean_exit(t_game *game, int code);
 int				end_game(t_game *game);
 void			free_tab(void **tab);
-void			free_textures_info(t_map *map);
+void			free_textures_info(t_file *file);
 int				free_game(t_game *game);
 
 // Debug

@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 19:05:32 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/23 22:59:12 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/27 17:07:55 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ int	draw_map(t_game *game)
 	int	x;
 	int	y;
 
-	y = game->map.start_of_map;
-	while (game->map.map[y])
+	y = 0;
+	while (game->file.map[y])
 	{
 		x = 0;
-		while (game->map.map[y][x])
+		while (game->file.map[y][x])
 		{
-			printf("%c", game->map.map[y][x]);
+			printf("%c", game->file.map[y][x]);
 			x++;
 		}
 		printf("\n");

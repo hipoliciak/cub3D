@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:09:37 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/26 23:04:22 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/27 17:04:59 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	check_player_position(t_game *game, char **map)
 	int	i;
 	int	j;
 
-	i = game->map.start_of_map;
+	i = 0;
 	while (map[i])
 	{
 		j = 0;
@@ -29,7 +29,7 @@ int	check_player_position(t_game *game, char **map)
 				game->player.pos_y = (double)i + 0.5;
 				game->player.dir = map[i][j];
 				map[i][j] = 'P';
-				game->map.player_count++;
+				game->file.player_count++;
 			}
 			j++;
 		}

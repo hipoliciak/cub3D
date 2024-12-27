@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:39 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/26 23:43:23 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/27 21:25:36 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,12 @@
 
 void	create_textures(t_game *game)
 {
-	game->north_texture = load_texture(game, game->map.north_path);
-	game->south_texture = load_texture(game, game->map.south_path);
-	game->west_texture = load_texture(game, game->map.west_path);
-	game->east_texture = load_texture(game, game->map.east_path);
-	game->hex_ceiling = convert_rgb_to_hex(game->map.rgb_ceiling);
-	game->hex_floor = convert_rgb_to_hex(game->map.rgb_floor);
+	game->north_texture = load_texture(game, game->file.north_path);
+	game->south_texture = load_texture(game, game->file.south_path);
+	game->west_texture = load_texture(game, game->file.west_path);
+	game->east_texture = load_texture(game, game->file.east_path);
+	game->hex_ceiling = convert_rgb_to_hex(game->file.rgb_ceiling);
+	game->hex_floor = convert_rgb_to_hex(game->file.rgb_floor);
 }
 
 int	*load_texture(t_game *game, char *path)

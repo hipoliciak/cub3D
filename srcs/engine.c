@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/21 00:56:17 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/23 22:37:22 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/27 17:05:55 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void	try_move(t_game *game, double target_x, double target_y)
 	new_y = (int)target_y;
 	if (new_x != old_x || new_y != old_y)
 	{
-		if (game->map.map[new_y][new_x] == '0')
+		if (game->file.map[new_y][new_x] == '0')
 		{
-			game->map.map[old_y][old_x] = '0';
-			game->map.map[new_y][new_x] = 'P';
+			game->file.map[old_y][old_x] = '0';
+			game->file.map[new_y][new_x] = 'P';
 			game->player.pos_x = target_x;
 			game->player.pos_y = target_y;
 			draw_map(game);
