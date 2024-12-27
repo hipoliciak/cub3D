@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:06 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/27 00:20:17 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/27 01:30:00 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ int				*convert_rgb_to_int(char **rgb_strings);
 
 // Check file
 int				is_cub_file(char *arg);
-int				check_texdata(t_game *game);
+int				check_textures(t_game *game);
 int				is_xpm_file(char *arg);
 
 // Check map

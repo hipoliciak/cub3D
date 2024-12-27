@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:45 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/26 22:56:08 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/27 01:29:36 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static int	parse_args(t_game *game, char **av)
 		return (free_game(game));
 	if (check_map(game))
 		return (free_game(game));
-	if (check_texdata(game))
+	if (check_textures(game))
 		return (free_game(game));
 	if (game->player.dir == 'N' || game->player.dir == 'S')
 		init_player_north_south(&game->player);

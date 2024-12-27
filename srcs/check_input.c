@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:06:35 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/26 22:58:37 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/27 01:29:47 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	is_xpm_file(char *arg)
 	return (0);
 }
 
-int	check_texdata(t_game *game)
+int	check_textures(t_game *game)
 {
 	if (!game->map.north_path || !game->map.south_path
 		|| !game->map.west_path || !game->map.east_path)
