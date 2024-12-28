@@ -6,11 +6,27 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:45 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/27 21:25:59 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/28 18:06:11 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
+
+static int	mouse_move(int x, int y, t_game *game)
+{
+	static int	last_x = -1;
+	double		rotation_angle;
+
+	(void)y;
+	mlx_mouse_hide(game->mlx_ptr, game->win_ptr);
+	if (last_x != -1)
+	{
+		rotation_angle = (x - last_x) * MOUSE_SENSITIVITY;
+		rotate_player(&game->player, rotation_angle);
+	}
+	last_x = x;
+	return (0);
+}
 
 static int	key_press(int key, t_game *game)
 {
@@ -87,6 +103,8 @@ int	main(int ac, char **av)
 	create_textures(&game);
 	mlx_hook(game.win_ptr, KEY_PRESS, KEY_PRESS_MASK, key_press, &game);
 	mlx_hook(game.win_ptr, KEY_RELEASE, KEY_RELEASE_MASK, key_release, &game);
+	mlx_hook(game.win_ptr, MOTION_NOTIFY, POINTER_MOTION_MASK,
+		mouse_move, &game);
 	mlx_hook(game.win_ptr, CLOSE_BTN, NO_EVENT_MASK, end_game, &game);
 	mlx_loop_hook(game.mlx_ptr, render_game, &game);
 	mlx_loop(game.mlx_ptr);

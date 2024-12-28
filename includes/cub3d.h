@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:06 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/27 23:23:08 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/28 17:06:47 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define TEX_HEIGHT 64
 # define MOVESPEED 0.05
 # define ROTSPEED 0.02
+# define MOUSE_SENSITIVITY 0.002
 # define MINIMAP_TILE_SIZE 10
 # define MINIMAP_WALL_COLOR 0xFFFFFF
 # define MINIMAP_FLOOR_COLOR 0x000000

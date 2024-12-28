@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:17 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/15 17:56:20 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/28 17:25:44 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,5 +87,7 @@
 # define M_CLK_M 2
 # define M_SCR_U 4
 # define M_SCR_D 5
+# define MOTION_NOTIFY 6
+# define POINTER_MOTION_MASK 64
 
 #endif
