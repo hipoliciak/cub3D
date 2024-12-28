@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/12/10 21:08:09 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/27 23:33:47 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/28 02:03:58 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ int	parse_line(t_game *game, char *line, int map_line_index)
 		i++;
 	if (!line[i] || line[i] == '\n')
 		return (0);
+	if (ft_isprint(line[i]) && !ft_strchr("NSWEFC", line[i]) && line[i] != '1')
+		return (err("Invalid file line", 1));
 	if (ft_strchr("NSWEFC", line[i]))
 	{
 		if (line[i + 1] && ft_strchr("OEA", line[i + 1]))
