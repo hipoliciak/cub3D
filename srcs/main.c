@@ -6,7 +6,7 @@
 /*   By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/30 23:19:45 by dmodrzej          #+#    #+#             */
-/*   Updated: 2024/12/28 18:06:11 by dmodrzej         ###   ########.fr       */
+/*   Updated: 2024/12/29 00:42:05 by dmodrzej         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,12 @@ static int	mouse_move(int x, int y, t_game *game)
 	double		rotation_angle;
 
 	(void)y;
-	mlx_mouse_hide(game->mlx_ptr, game->win_ptr);
 	if (last_x != -1)
 	{
-		rotation_angle = (x - last_x) * MOUSE_SENSITIVITY;
+		if (x > last_x)
+			rotation_angle = ROTSPEED;
+		else
+			rotation_angle = -ROTSPEED;
 		rotate_player(&game->player, rotation_angle);
 	}
 	last_x = x;
