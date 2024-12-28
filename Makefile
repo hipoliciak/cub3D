@@ -6,11 +6,11 @@
 #    By: dmodrzej <dmodrzej@student.42warsaw.pl>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/10/30 23:20:11 by dmodrzej          #+#    #+#              #
-#    Updated: 2024/12/27 20:08:07 by dmodrzej         ###   ########.fr        #
+#    Updated: 2024/12/29 00:45:46 by dmodrzej         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	=	cub3d
+NAME	=	cub3D
 
 # compiler
 CC		=	cc
